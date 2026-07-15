@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --navy: #1a2236;
+  --ivory: #f7f4ee;
+  --ivory-dim: #ede9e0;
+  --gold: #b8973a;
+  --gold-light: #d4af60;
+  --gold-pale: rgba(184, 151, 58, 0.09);
+  --gold-mid: rgba(184, 151, 58, 0.18);
+  --text: #1a2236;
+  --text-mid: #4a5568;
+  --text-muted: #9a9080;
+  --white: #ffffff;
+  --r: 16px;
+  --r-sm: 10px;
+  --shadow-sm: 0 1px 4px rgba(26, 34, 54, 0.06);
+  --shadow-md: 0 2px 16px rgba(26, 34, 54, 0.08);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-ivory text-ink font-sans;
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+}
