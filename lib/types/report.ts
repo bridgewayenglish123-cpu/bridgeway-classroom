@@ -25,3 +25,39 @@ export type ReportStrength = {
   zh: string
   en?: string
 }
+
+export type ReportError = {
+  pattern: string
+  count?: number
+  example?: string
+  correction?: string
+  tip_zh?: string
+  tip_en?: string
+}
+
+export type ReportComparison = {
+  summary_zh?: string
+  summary_en?: string
+}
+
+export type Lang = 'zh' | 'en'
+
+// 報告頁 view-model（由 app/report/[lessonId]/page.tsx 從 Supabase 整理而成）
+export type ReportVM = {
+  lessonId: string
+  reportId: string
+  studentName: string
+  dateLabel: string
+  teacherName: string | null
+  teacherNote: string | null
+  milestone: string | null
+  analysisZh: ReportAnalysis | null
+  analysisEn: ReportAnalysis | null
+  vocabulary: ReportVocabulary[]
+  phrases: ReportPhrase[]
+  strengths: ReportStrength[]
+  errors: ReportError[]
+  comparison: ReportComparison | null
+  reflectionZh: string | null
+  reflectionEn: string | null
+}

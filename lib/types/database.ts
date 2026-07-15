@@ -168,6 +168,7 @@ export type Database = {
           phrases: Json | null
           strengths: Json | null
           student_id: string
+          teacher_note: string | null
           transcript_vtt: string | null
           updated_at: string
           vocabulary: Json | null
@@ -185,6 +186,7 @@ export type Database = {
           phrases?: Json | null
           strengths?: Json | null
           student_id: string
+          teacher_note?: string | null
           transcript_vtt?: string | null
           updated_at?: string
           vocabulary?: Json | null
@@ -202,6 +204,7 @@ export type Database = {
           phrases?: Json | null
           strengths?: Json | null
           student_id?: string
+          teacher_note?: string | null
           transcript_vtt?: string | null
           updated_at?: string
           vocabulary?: Json | null
@@ -397,7 +400,9 @@ export type Database = {
           created_at: string
           id: string
           lesson_report_id: string
-          question: string
+          question: string | null
+          question_en: string | null
+          question_zh: string | null
           response: string | null
           student_id: string
           updated_at: string
@@ -406,7 +411,9 @@ export type Database = {
           created_at?: string
           id: string
           lesson_report_id: string
-          question: string
+          question?: string | null
+          question_en?: string | null
+          question_zh?: string | null
           response?: string | null
           student_id: string
           updated_at?: string
@@ -415,7 +422,9 @@ export type Database = {
           created_at?: string
           id?: string
           lesson_report_id?: string
-          question?: string
+          question?: string | null
+          question_en?: string | null
+          question_zh?: string | null
           response?: string | null
           student_id?: string
           updated_at?: string
