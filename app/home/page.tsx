@@ -186,6 +186,7 @@ export default async function HomePage() {
           name={firstName}
           journeyText={getJourneyText(completedCount)}
           goal={student.learning_goal}
+          studentId={student.id}
         />
 
         <NextLesson lesson={nextLesson} />
