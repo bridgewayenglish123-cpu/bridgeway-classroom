@@ -51,6 +51,7 @@ export default async function HomePage() {
     return (
       <>
         <Nav name="同學" />
+        <main className="mx-auto max-w-[1100px] px-5 pt-10 sm:px-8 lg:px-12">
           <p className="text-[14px] leading-relaxed text-ink-mid">
             找不到你的學生資料，請聯絡 Bridgeway。
           </p>
