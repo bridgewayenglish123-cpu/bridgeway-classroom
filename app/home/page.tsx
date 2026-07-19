@@ -192,7 +192,7 @@ export default async function HomePage() {
         <NextLesson lesson={nextLesson} />
 
         <div className="mb-3.5 mt-8 flex items-baseline justify-between">
-          <h2 className="font-serif text-[22px] font-medium text-navy">
+          <h2 className="font-serif text-[26px] font-medium text-navy sm:text-[28px]">
             上堂課的摘要
           </h2>
           {summary ? (
@@ -207,7 +207,7 @@ export default async function HomePage() {
         <SummaryCard report={summary} />
 
         <div className="mb-3.5 mt-9 flex items-baseline justify-between">
-          <h2 className="font-serif text-[22px] font-medium text-navy">
+          <h2 className="font-serif text-[26px] font-medium text-navy sm:text-[28px]">
             學習歷程
           </h2>
         </div>

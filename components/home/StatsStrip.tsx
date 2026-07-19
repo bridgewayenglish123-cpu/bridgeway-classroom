@@ -10,18 +10,18 @@ function Stat({
   highlight?: boolean
 }) {
   return (
-    <div className={`flex-1 rounded-field px-3 py-4 text-center shadow-sm transition-all ${
-      highlight 
-        ? 'bg-gradient-to-b from-[#FBF8EF] to-white border border-gold/20' 
-        : 'bg-white'
+    <div className={`flex-1 rounded-2xl px-4 py-5 text-center shadow-sm transition-all sm:py-6 ${
+      highlight
+        ? 'bg-gradient-to-b from-[#FBF8EF] to-white border border-gold/25'
+        : 'bg-white border border-ivory-dim'
     }`}>
-      <div className={`mb-[3px] font-serif text-[28px] leading-none ${
+      <div className={`mb-1 font-serif text-[36px] leading-none sm:text-[42px] ${
         highlight ? 'text-gold' : 'text-navy'
       }`}>
         {num}
-        {unit ? <span className="text-[15px]">{unit}</span> : null}
+        {unit ? <span className="text-[20px]">{unit}</span> : null}
       </div>
-      <div className="text-[10px] uppercase tracking-[0.06em] text-ink-muted">
+      <div className="text-[11px] font-medium uppercase tracking-[0.08em] text-ink-muted">
         {label}
       </div>
     </div>
@@ -52,19 +52,19 @@ export function StatsStrip({
   const remaining = nextMilestone ? nextMilestone - completed : null
 
   return (
-    <div className="mb-3.5">
+    <div className="mb-4">
       {milestone && (
-        <div className="mb-3 rounded-2xl border border-gold/30 bg-gradient-to-r from-[#FBF8EF] to-[#F5F0E0] px-4 py-3 text-center">
-          <p className="text-[13px] font-medium text-navy">{milestone}</p>
+        <div className="mb-4 rounded-2xl border border-gold/30 bg-gradient-to-r from-[#FBF8EF] to-[#F5F0E0] px-5 py-4 text-center">
+          <p className="text-[14px] font-medium text-navy">{milestone}</p>
         </div>
       )}
-      <div className="flex gap-2.5">
+      <div className="flex gap-3">
         <Stat num={completed} label="堂課完成" highlight={completed > 0 && completed % 5 === 0} />
         <Stat num={vocab} label="學習單字" />
         <Stat num={weeks} unit="週" label="學習連續" highlight={weeks >= 4} />
       </div>
       {remaining && remaining <= 3 && (
-        <p className="mt-2 text-center text-[11px] text-gold/70">
+        <p className="mt-2.5 text-center text-[12px] text-gold/70">
           再 {remaining} 堂就達到新里程碑 ✦
         </p>
       )}
