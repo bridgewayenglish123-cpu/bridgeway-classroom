@@ -51,7 +51,7 @@ export default async function HomePage() {
     return (
       <>
         <Nav name="同學" />
-        <main className="mx-auto max-w-[640px] px-4 pt-10 sm:px-5">
+        <main className="mx-auto max-w-[1100px] px-5 pt-10 sm:px-8 lg:px-12">
           <p className="text-[14px] leading-relaxed text-ink-mid">
             找不到你的學生資料，請聯絡 Bridgeway。
           </p>
@@ -179,7 +179,7 @@ export default async function HomePage() {
   return (
     <>
       <Nav name={displayName} />
-      <main className="mx-auto max-w-[640px] px-4 pb-16 pt-7 sm:px-5 sm:pb-20 sm:pt-10">
+      <main className="mx-auto max-w-[1100px] px-5 pb-16 pt-7 sm:px-8 sm:pb-20 sm:pt-10 lg:px-12">
         <Greeting
           greeting={getGreeting()}
           dateLabel={formatGreetingDate()}
