@@ -1,3 +1,7 @@
+'use client'
+import { createClient } from '@/lib/supabase/client'
+import { useRouter } from 'next/navigation'
+
 function initials(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean)
   if (parts.length >= 2) {
@@ -7,6 +11,15 @@ function initials(name: string): string {
 }
 
 export function Nav({ name }: { name: string }) {
+  const router = useRouter()
+  const supabase = createClient()
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut()
+    router.push('/auth/login')
+    router.refresh()
+  }
+
   return (
     <nav className="sticky top-0 z-50 flex h-[52px] items-center justify-between bg-navy px-[18px] sm:h-[56px] sm:px-7">
       <div className="font-serif text-[19px] font-medium tracking-[0.05em] text-ivory">
@@ -17,6 +30,12 @@ export function Nav({ name }: { name: string }) {
         <div className="flex h-[34px] w-[34px] flex-shrink-0 items-center justify-center rounded-full bg-gold text-[11px] font-semibold tracking-[0.03em] text-white">
           {initials(name)}
         </div>
+        <button
+          onClick={handleSignOut}
+          className="text-[11px] text-ivory/40 hover:text-ivory/70 transition-colors ml-1"
+        >
+          登出
+        </button>
       </div>
     </nav>
   )
