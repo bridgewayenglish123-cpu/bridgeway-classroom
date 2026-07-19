@@ -44,7 +44,7 @@ function CardInner({ item }: { item: HistoryItemVM }) {
           ) : null}
         </div>
         {item.summary ? (
-          <div className="mb-2 line-clamp-2 text-[14px] leading-[1.7] text-ink-mid">
+          <div className="mb-2 line-clamp-2 text-[14px] leading-[1.7] text-ink">
             {item.summary}
           </div>
         ) : (
@@ -57,7 +57,7 @@ function CardInner({ item }: { item: HistoryItemVM }) {
             {item.chips.map((c, i) => (
               <span
                 key={`${c}-${i}`}
-                className="rounded-full bg-ivory border border-ivory-dim px-3 py-0.5 text-[11px] text-ink-muted"
+                className="rounded-full bg-navy/5 border border-navy/10 px-3 py-0.5 text-[11px] text-ink-mid"
               >
                 {c}
               </span>
@@ -70,7 +70,7 @@ function CardInner({ item }: { item: HistoryItemVM }) {
 }
 
 function HistoryCard({ item }: { item: HistoryItemVM }) {
-  const base = `flex items-start gap-4 rounded-2xl bg-white p-4 sm:p-5 shadow-sm border-l-[3px] ${
+  const base = `flex items-start gap-4 rounded-2xl bg-white p-5 sm:p-6 shadow-sm border-l-[3px] ${
     item.milestone ? 'border-gold' : 'border-transparent'
   }`
 

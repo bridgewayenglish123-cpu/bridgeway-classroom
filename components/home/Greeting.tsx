@@ -46,7 +46,7 @@ export function Greeting({
       </h1>
 
       {/* 旅程文字 */}
-      <p className="border-l-2 border-gold pl-3 text-[12px] italic leading-[1.7] tracking-[0.01em] text-ink-muted">
+      <p className="border-l-2 border-gold pl-3 text-[13px] italic leading-[1.7] tracking-[0.01em] text-ink-mid">
         {journeyText}
       </p>
 

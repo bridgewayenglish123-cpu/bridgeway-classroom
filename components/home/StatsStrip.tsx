@@ -64,7 +64,7 @@ export function StatsStrip({
         <Stat num={weeks} unit="週" label="學習連續" highlight={weeks >= 4} />
       </div>
       {remaining && remaining <= 3 && (
-        <p className="mt-2.5 text-center text-[12px] text-gold/70">
+        <p className="mt-3 text-center text-[13px] font-medium text-gold">
           再 {remaining} 堂就達到新里程碑 ✦
         </p>
       )}
