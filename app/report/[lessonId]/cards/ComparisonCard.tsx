@@ -15,11 +15,11 @@ export function ComparisonCard({
   if (!text) return null
 
   return (
-    <section className="rounded-card bg-white p-5 shadow-md sm:p-6">
-      <div className="mb-3 text-[11px] font-medium uppercase tracking-[0.1em] text-ink-muted">
+    <section className="rounded-card bg-white p-6 shadow-md sm:p-8">
+      <h3 className="mb-4 text-[13px] font-semibold uppercase tracking-[0.12em] text-ink-muted">
         {lang === 'zh' ? '跟上堂課比較' : 'Compared to Last Lesson'}
-      </div>
-      <p className="text-[13px] leading-[1.8] text-ink-mid">{text}</p>
+      </h3>
+      <p className="text-[16px] leading-[1.9] text-ink-mid">{text}</p>
     </section>
   )
 }

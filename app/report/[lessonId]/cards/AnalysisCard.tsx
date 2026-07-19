@@ -18,7 +18,7 @@ export function AnalysisCard({
   const a = lang === 'zh' ? zh : en
 
   return (
-    <section className="rounded-card bg-white p-5 shadow-md sm:p-7">
+    <section className="rounded-card bg-white p-6 shadow-md sm:p-8">
       {!hideHeader && (
         <div className="mb-4 flex flex-wrap items-center gap-2.5">
           {dateLabel ? (

@@ -1,26 +1,18 @@
 import type { Lang, ReportStrength } from '@/lib/types/report'
 
-export function StrengthCard({
-  lang,
-  items,
-}: {
-  lang: Lang
-  items: ReportStrength[]
-}) {
+export function StrengthCard({ lang, items }: { lang: Lang; items: ReportStrength[] }) {
   if (items.length === 0) return null
-
   return (
-    <section className="rounded-card bg-white p-5 shadow-md sm:p-7">
-      <div className="mb-3 text-[11px] font-medium uppercase tracking-[0.1em] text-ink-muted">
-        {lang === 'zh' ? '你做得好的地方' : 'What You Did Well'}
-      </div>
-      <ul className="flex flex-col gap-2.5">
+    <section className="rounded-card bg-white p-6 shadow-md sm:p-8">
+      <h3 className="mb-5 text-[13px] font-semibold uppercase tracking-[0.12em] text-ink-muted">
+        {lang === 'zh' ? '✦ 你做得很好的地方' : '✦ What You Did Well'}
+      </h3>
+      <ul className="flex flex-col gap-4">
         {items.map((s, i) => {
           const text = lang === 'zh' ? s.zh : s.en ?? s.zh
           return (
-            <li key={i} className="flex items-start gap-2.5">
-              <span className="mt-[7px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gold" />
-              <span className="text-[13px] leading-relaxed text-ink-mid">{text}</span>
+            <li key={i} className="border-l-[3px] border-gold pl-5 py-1">
+              <span className="text-[16px] leading-[1.85] text-ink">{text}</span>
             </li>
           )
         })}
