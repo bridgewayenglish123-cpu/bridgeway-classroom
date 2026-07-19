@@ -55,14 +55,6 @@ export function LoginForm() {
 
       <AuthSubmit label="登入" pendingLabel="登入中…" />
 
-      <div className="mt-1 text-center">
-        <Link
-          href="/auth/forgot-password"
-          className="text-[12px] text-gold transition hover:text-gold-light"
-        >
-          忘記密碼？
-        </Link>
-      </div>
     </form>
   )
 }
