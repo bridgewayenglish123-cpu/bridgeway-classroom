@@ -41,7 +41,7 @@ export function AnalysisCard({
         </h2>
       ) : null}
       {a?.body ? (
-        <p className="text-[15px] leading-[1.85] text-ink-mid">{a.body}</p>
+        <p className="text-[16px] leading-[1.9] text-ink-mid">{a.body}</p>
       ) : null}
       {!a ? (
         <p className="text-[13px] text-ink-muted">

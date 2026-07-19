@@ -39,7 +39,7 @@ export function ReflectionCard({
       <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-muted">
         {lang === 'zh' ? '今天的思考題' : "Today's Reflection"}
       </div>
-      <p className="mb-4 text-[16px] font-medium leading-[1.75] text-navy">{question}</p>
+      <p className="mb-5 text-[17px] font-medium leading-[1.8] text-navy">{question}</p>
 
       <textarea
         value={text}
@@ -48,7 +48,7 @@ export function ReflectionCard({
           if (saved) setSaved(false)
         }}
         placeholder={lang === 'zh' ? '寫下你的想法...' : 'Write your thoughts...'}
-        rows={4}
+        rows={5}
         className="w-full resize-none rounded-field border border-ivory-dim bg-white px-4 py-3 text-[14px] leading-relaxed text-ink outline-none transition placeholder:text-ink-muted/60 focus:border-gold focus:ring-2 focus:ring-gold/25"
       />
 

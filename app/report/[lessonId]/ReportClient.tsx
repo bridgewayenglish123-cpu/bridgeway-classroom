@@ -57,13 +57,13 @@ export function ReportClient({
       {/* ── Hero header ── */}
       <div className="bg-navy px-4 pb-8 pt-6 sm:px-8 sm:pb-10 sm:pt-8">
         <div className="mx-auto max-w-[1080px]">
-          <div className="mb-1 text-[11px] font-medium uppercase tracking-[0.12em] text-gold/70">
+          <div className="mb-1 text-[12px] font-medium text-gold/80">
             {report.dateLabel}
             {report.teacherName
               ? ` · ${report.teacherName}${lang === 'zh' ? ' 老師' : ''}`
               : ''}
           </div>
-          <h1 className="font-serif text-[24px] font-medium leading-snug text-ivory sm:text-[28px]">
+          <h1 className="font-serif text-[20px] font-medium leading-snug text-ivory sm:text-[24px]">
             {lang === 'zh'
               ? report.analysisZh?.headline
               : report.analysisEn?.headline}
@@ -124,7 +124,7 @@ export function ReportClient({
         </div>
 
         {/* 右欄（桌機固定）：詞彙 + 強項 */}
-        <div className="mt-4 flex flex-col gap-4 lg:sticky lg:top-[60px] lg:mt-0">
+        <div className="mt-4 flex flex-col gap-4 lg:mt-0">
           <VocabCard
             lang={lang}
             kind="word"
