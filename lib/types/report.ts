@@ -27,7 +27,9 @@ export type ReportStrength = {
 }
 
 export type ReportError = {
-  pattern: string
+  pattern?: string
+  pattern_zh?: string
+  pattern_en?: string
   count?: number
   example?: string
   correction?: string
