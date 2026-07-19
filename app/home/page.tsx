@@ -180,9 +180,9 @@ export default async function HomePage() {
     <>
       <Nav name={displayName} />
       <main className="mx-auto max-w-[1100px] px-5 pb-16 pt-7 sm:px-8 sm:pb-20 sm:pt-10 lg:px-12">
-        <div className="lg:grid lg:grid-cols-[1fr_360px] lg:gap-12 lg:items-start">
+        <div className="lg:grid lg:grid-cols-[1fr_400px] lg:gap-10 lg:items-start">
 
-          {/* 左欄：問候 + 學習歷程 */}
+          {/* 左欄：問候 + 下一堂課 + 學習歷程 */}
           <div>
             <Greeting
               greeting={getGreeting()}
@@ -193,7 +193,11 @@ export default async function HomePage() {
               studentId={student.id}
             />
 
-            <div className="mb-4 mt-10 flex items-baseline justify-between">
+            <div className="mt-6">
+              <NextLesson lesson={nextLesson} />
+            </div>
+
+            <div className="mb-4 mt-8 flex items-baseline justify-between">
               <h2 className="font-serif text-[28px] font-medium text-navy">
                 學習歷程
               </h2>
@@ -206,16 +210,14 @@ export default async function HomePage() {
             <HistoryList items={history} totalCompleted={completedCount} />
           </div>
 
-          {/* 右欄：下一堂課 + 上堂課摘要 */}
-          <div className="mt-10 lg:sticky lg:top-6 lg:mt-0">
-            <NextLesson lesson={nextLesson} />
-
-            <div className="mb-4 mt-8 flex items-baseline justify-between">
+          {/* 右欄：上堂課完整摘要（固定在側邊） */}
+          <div className="mt-8 lg:mt-0 lg:sticky lg:top-6">
+            <div className="mb-4 flex items-baseline justify-between">
               <h2 className="font-serif text-[28px] font-medium text-navy">
                 上堂課的摘要
               </h2>
               {summary ? (
-                <a
+                
                   href={`/report/${summary.lessonId}`}
                   className="text-[12px] tracking-[0.04em] text-gold opacity-85 transition hover:opacity-100"
                 >
