@@ -6,7 +6,7 @@ export function AnalysisCard({
   en,
   dateLabel,
   teacherName,
-  hideHeader?: boolean
+  hideHeader,
 }: {
   lang: Lang
   zh: ReportAnalysis | null
