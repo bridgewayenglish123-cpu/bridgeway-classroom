@@ -16,7 +16,7 @@ export function AnalysisCard({
   const a = lang === 'zh' ? zh : en
 
   return (
-    <section className="rounded-card bg-white p-5 shadow-md sm:p-6">
+    <section className="rounded-card bg-white p-5 shadow-md sm:p-7">
       <div className="mb-3 flex flex-wrap items-center gap-2.5">
         {dateLabel ? (
           <span className="rounded-[20px] bg-ivory px-2.5 py-[3px] text-[11px] text-ink-muted">
@@ -32,12 +32,12 @@ export function AnalysisCard({
       </div>
 
       {a?.headline ? (
-        <div className="mb-2 text-[16px] font-medium leading-snug text-navy">
+        <div className="mb-2 text-[18px] font-semibold leading-snug text-navy">
           {a.headline}
         </div>
       ) : null}
       {a?.body ? (
-        <p className="text-[13px] leading-[1.8] text-ink-mid">{a.body}</p>
+        <p className="text-[15px] leading-[1.85] text-ink-mid">{a.body}</p>
       ) : null}
       {!a ? (
         <p className="text-[13px] text-ink-muted">

@@ -10,7 +10,7 @@ export function StrengthCard({
   if (items.length === 0) return null
 
   return (
-    <section className="rounded-card bg-white p-5 shadow-md sm:p-6">
+    <section className="rounded-card bg-white p-5 shadow-md sm:p-7">
       <div className="mb-3 text-[11px] font-medium uppercase tracking-[0.1em] text-ink-muted">
         {lang === 'zh' ? '你做得好的地方' : 'What You Did Well'}
       </div>

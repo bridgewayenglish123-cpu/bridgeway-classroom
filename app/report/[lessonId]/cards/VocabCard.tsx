@@ -63,8 +63,8 @@ export function VocabCard({
   }
 
   return (
-    <section className="rounded-card bg-white p-5 shadow-md sm:p-6">
-      <div className="mb-3 text-[11px] font-medium uppercase tracking-[0.1em] text-ink-muted">
+    <section className="rounded-card bg-white p-5 shadow-md sm:p-7">
+      <div className="mb-4 text-[12px] font-medium uppercase tracking-[0.1em] text-ink-muted">
         {label}
       </div>
       <ul className="flex flex-col divide-y divide-ivory-dim">
@@ -89,9 +89,9 @@ export function VocabCard({
               className="flex items-start gap-3 py-2.5 first:pt-0 last:pb-0"
             >
               <div className="min-w-0 flex-1">
-                <div className="text-[14px] font-medium text-navy">{term}</div>
+                <div className="text-[15px] font-medium text-navy">{term}</div>
                 {def ? (
-                  <div className="mt-0.5 text-[12px] leading-relaxed text-ink-mid">
+                  <div className="mt-1 text-[13px] leading-relaxed text-ink-mid">
                     {def}
                   </div>
                 ) : null}
