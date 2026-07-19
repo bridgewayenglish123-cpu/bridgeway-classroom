@@ -36,9 +36,9 @@ export function AnalysisCard({
       )}
 
       {a?.headline ? (
-        <div className="mb-2 text-[18px] font-semibold leading-snug text-navy">
+        <h2 className="mb-3 font-serif text-[22px] font-medium leading-snug text-navy sm:text-[24px]">
           {a.headline}
-        </div>
+        </h2>
       ) : null}
       {a?.body ? (
         <p className="text-[15px] leading-[1.85] text-ink-mid">{a.body}</p>

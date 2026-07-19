@@ -36,10 +36,10 @@ export function ReflectionCard({
 
   return (
     <section className="rounded-card bg-white p-5 shadow-md sm:p-7">
-      <div className="mb-3 text-[12px] font-medium uppercase tracking-[0.1em] text-ink-muted">
+      <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-muted">
         {lang === 'zh' ? '今天的思考題' : "Today's Reflection"}
       </div>
-      <p className="mb-4 text-[15px] leading-relaxed text-ink">{question}</p>
+      <p className="mb-4 text-[16px] font-medium leading-[1.75] text-navy">{question}</p>
 
       <textarea
         value={text}
