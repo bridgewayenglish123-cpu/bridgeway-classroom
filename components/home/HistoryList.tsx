@@ -118,12 +118,9 @@ export function HistoryList({
           <HistoryCard key={item.id} item={item} />
         ))}
       </div>
-      <Link
-        href="/history"
-        className="mt-2.5 block w-full rounded-field border border-dashed border-ivory-dim py-[13px] text-center text-[12px] tracking-[0.04em] text-ink-muted transition hover:border-gold hover:text-gold"
-      >
-        查看全部 {totalCompleted} 堂課的記錄
-      </Link>
+      <div className="mt-2.5 w-full rounded-field border border-dashed border-ivory-dim py-[13px] text-center text-[12px] tracking-[0.04em] text-ink-muted">
+        共 {totalCompleted} 堂完課記錄 · 報告從正式上線後開始累積
+      </div>
     </div>
   )
 }
