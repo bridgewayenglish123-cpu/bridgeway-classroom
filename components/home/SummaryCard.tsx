@@ -6,7 +6,7 @@ type TagVariant = 'word' | 'phrase' | 'win'
 const tagClass: Record<TagVariant, string> = {
   word: 'bg-ivory border border-ivory-dim text-navy',
   phrase: 'bg-gold-pale border border-[rgba(184,151,58,0.20)] text-[#7a5f18]',
-  win: 'bg-[#2C1F00] border border-[#2C1F00] text-[#F5E6B8] font-medium',
+  win: 'bg-white border-l-[3px] border-l-gold border border-ivory-dim text-ink rounded-xl px-4 py-2.5 w-full text-left',
 }
 
 function TagGroup({
@@ -24,16 +24,29 @@ function TagGroup({
       <div className="mb-2.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-ink-muted">
         {label}
       </div>
-      <div className="flex flex-wrap gap-[7px]">
-        {tags.map((t, i) => (
-          <span
-            key={`${t}-${i}`}
-            className={`rounded-[20px] px-3.5 py-[5px] text-[12px] leading-none ${tagClass[variant]}`}
-          >
-            {t}
-          </span>
-        ))}
-      </div>
+      {variant === 'win' ? (
+        <div className="flex flex-col gap-2">
+          {tags.map((t, i) => (
+            <div
+              key={`${t}-${i}`}
+              className={`text-[13px] leading-[1.7] ${tagClass[variant]}`}
+            >
+              {t}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-wrap gap-[7px]">
+          {tags.map((t, i) => (
+            <span
+              key={`${t}-${i}`}
+              className={`rounded-[20px] px-3.5 py-[5px] text-[12px] leading-none ${tagClass[variant]}`}
+            >
+              {t}
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
@@ -73,7 +86,7 @@ export function SummaryCard({ report }: { report: SummaryVM | null }) {
 
       <TagGroup label="本課單字" tags={report.words} variant="word" />
       <TagGroup label="本課片語" tags={report.phrases} variant="phrase" />
-      <TagGroup label="你做得很好的地方" tags={report.strengths} variant="win" />
+      <TagGroup label="✦ 你做得很好的地方" tags={report.strengths} variant="win" />
     </div>
   )
 }
