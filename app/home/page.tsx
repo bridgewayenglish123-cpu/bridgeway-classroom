@@ -217,7 +217,7 @@ export default async function HomePage() {
                 上堂課的摘要
               </h2>
               {summary ? (
-                
+                <a
                   href={`/report/${summary.lessonId}`}
                   className="text-[12px] tracking-[0.04em] text-gold opacity-85 transition hover:opacity-100"
                 >
