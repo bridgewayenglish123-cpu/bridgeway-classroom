@@ -180,7 +180,6 @@ export default async function HomePage() {
     <>
       <Nav name={displayName} />
       <main className="mx-auto max-w-[1100px] px-5 pb-16 pt-7 sm:px-8 sm:pb-20 sm:pt-10 lg:px-12">
-      <main className="mx-auto max-w-[1100px] px-5 pb-16 pt-7 sm:px-8 sm:pb-20 sm:pt-10 lg:px-12">
         <div className="lg:grid lg:grid-cols-[1fr_360px] lg:gap-12 lg:items-start">
 
           {/* 左欄：問候 + 學習歷程 */}
