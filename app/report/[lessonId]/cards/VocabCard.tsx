@@ -86,12 +86,12 @@ export function VocabCard({
           return (
             <li
               key={`${term}-${i}`}
-              className="flex items-start gap-4 py-3.5 first:pt-0 last:pb-0"
+              className="flex items-start gap-4 py-4 first:pt-0 last:pb-0"
             >
               <div className="min-w-0 flex-1">
-                <div className="text-[16px] font-semibold text-navy tracking-[-0.01em]">{term}</div>
+                <div className="text-[16px] font-bold text-navy tracking-[-0.01em]">{term}</div>
                 {def ? (
-                  <div className="mt-1 text-[13px] leading-[1.7] text-ink-mid">
+                  <div className="mt-1.5 text-[14px] leading-[1.75] text-ink-mid">
                     {def}
                   </div>
                 ) : null}

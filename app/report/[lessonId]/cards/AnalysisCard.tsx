@@ -20,7 +20,7 @@ export function AnalysisCard({
   return (
     <section className="rounded-card bg-white p-5 shadow-md sm:p-7">
       {!hideHeader && (
-        <div className="mb-3 flex flex-wrap items-center gap-2.5">
+        <div className="mb-4 flex flex-wrap items-center gap-2.5">
           {dateLabel ? (
             <span className="rounded-[20px] bg-ivory px-2.5 py-[3px] text-[11px] text-ink-muted">
               {dateLabel}
@@ -41,7 +41,7 @@ export function AnalysisCard({
         </h2>
       ) : null}
       {a?.body ? (
-        <p className="text-[16px] leading-[1.9] text-ink-mid">{a.body}</p>
+        <p className="text-[16px] leading-[2] text-ink-mid">{a.body}</p>
       ) : null}
       {!a ? (
         <p className="text-[13px] text-ink-muted">

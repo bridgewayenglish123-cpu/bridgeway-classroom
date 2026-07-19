@@ -8,11 +8,11 @@ export function ErrorCard({ lang, items }: { lang: Lang; items: ReportError[] })
       <div className="mb-3 text-[11px] font-medium uppercase tracking-[0.1em] text-ink-muted">
         {lang === 'zh' ? '需要加強的地方' : 'Areas to Improve'}
       </div>
-      <ul className="flex flex-col gap-5">
+      <ul className="flex flex-col gap-6">
         {items.map((e, i) => {
           const tip = lang === 'zh' ? e.tip_zh : e.tip_en ?? e.tip_zh
           return (
-            <li key={i} className="border-l-[3px] border-ivory-dim pl-4">
+            <li key={i} className="border-l-[3px] border-ivory-dim pl-5">
               <div className="mb-1 flex items-center gap-2">
                 <span className="text-[12px] font-medium text-navy">{e.pattern}</span>
                 {typeof e.count === 'number' ? (
