@@ -35,13 +35,13 @@ export function AnalysisCard({
         </div>
       )}
 
-      {a?.headline ? (
+      {!hideHeader && a?.headline ? (
         <h2 className="mb-3 font-serif text-[22px] font-medium leading-snug text-navy sm:text-[24px]">
           {a.headline}
         </h2>
       ) : null}
       {a?.body ? (
-        <p className="text-[16px] leading-[2] text-ink-mid">{a.body}</p>
+        <p className={`text-[16px] leading-[2] text-ink-mid ${hideHeader ? '' : 'mt-0'}`}>{a.body}</p>
       ) : null}
       {!a ? (
         <p className="text-[13px] text-ink-muted">

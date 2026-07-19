@@ -97,7 +97,7 @@ export function ReportClient({
           </div>
 
           {/* 右欄：單字 + 片語（桌機 sticky） */}
-          <div className="mt-5 flex flex-col gap-5 lg:sticky lg:top-[64px] lg:mt-0">
+          <div className="mt-5 flex flex-col gap-5 lg:mt-0">
             <VocabCard
               lang={lang}
               kind="word"
