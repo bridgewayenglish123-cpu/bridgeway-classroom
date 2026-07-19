@@ -180,43 +180,54 @@ export default async function HomePage() {
     <>
       <Nav name={displayName} />
       <main className="mx-auto max-w-[1100px] px-5 pb-16 pt-7 sm:px-8 sm:pb-20 sm:pt-10 lg:px-12">
-        <Greeting
-          greeting={getGreeting()}
-          dateLabel={formatGreetingDate()}
-          name={firstName}
-          journeyText={getJourneyText(completedCount)}
-          goal={student.learning_goal}
-          studentId={student.id}
-        />
+      <main className="mx-auto max-w-[1100px] px-5 pb-16 pt-7 sm:px-8 sm:pb-20 sm:pt-10 lg:px-12">
+        <div className="lg:grid lg:grid-cols-[1fr_360px] lg:gap-12 lg:items-start">
 
-        <NextLesson lesson={nextLesson} />
+          {/* 左欄：問候 + 學習歷程 */}
+          <div>
+            <Greeting
+              greeting={getGreeting()}
+              dateLabel={formatGreetingDate()}
+              name={firstName}
+              journeyText={getJourneyText(completedCount)}
+              goal={student.learning_goal}
+              studentId={student.id}
+            />
 
-        <div className="mb-3.5 mt-8 flex items-baseline justify-between">
-          <h2 className="font-serif text-[26px] font-medium text-navy sm:text-[28px]">
-            上堂課的摘要
-          </h2>
-          {summary ? (
-            <a
-              href={`/report/${summary.lessonId}`}
-              className="text-[11px] tracking-[0.04em] text-gold opacity-85 transition hover:opacity-100"
-            >
-              完整報告 →
-            </a>
-          ) : null}
+            <div className="mb-4 mt-10 flex items-baseline justify-between">
+              <h2 className="font-serif text-[28px] font-medium text-navy">
+                學習歷程
+              </h2>
+            </div>
+            <StatsStrip
+              completed={completedCount}
+              vocab={vocabCount}
+              weeks={streakWeeks}
+            />
+            <HistoryList items={history} totalCompleted={completedCount} />
+          </div>
+
+          {/* 右欄：下一堂課 + 上堂課摘要 */}
+          <div className="mt-10 lg:sticky lg:top-6 lg:mt-0">
+            <NextLesson lesson={nextLesson} />
+
+            <div className="mb-4 mt-8 flex items-baseline justify-between">
+              <h2 className="font-serif text-[28px] font-medium text-navy">
+                上堂課的摘要
+              </h2>
+              {summary ? (
+                
+                  href={`/report/${summary.lessonId}`}
+                  className="text-[12px] tracking-[0.04em] text-gold opacity-85 transition hover:opacity-100"
+                >
+                  完整報告 →
+                </a>
+              ) : null}
+            </div>
+            <SummaryCard report={summary} />
+          </div>
+
         </div>
-        <SummaryCard report={summary} />
-
-        <div className="mb-3.5 mt-9 flex items-baseline justify-between">
-          <h2 className="font-serif text-[26px] font-medium text-navy sm:text-[28px]">
-            學習歷程
-          </h2>
-        </div>
-        <StatsStrip
-          completed={completedCount}
-          vocab={vocabCount}
-          weeks={streakWeeks}
-        />
-        <HistoryList items={history} totalCompleted={completedCount} />
       </main>
     </>
   )
