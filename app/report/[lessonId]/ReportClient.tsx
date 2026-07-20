@@ -16,10 +16,14 @@ export function ReportClient({
   report,
   savedWords,
   initialResponse,
+  initialFeedback,
+  studentAge,
 }: {
   report: ReportVM
   savedWords: string[]
   initialResponse: string | null
+  initialFeedback: string | null
+  studentAge?: number | null
 }) {
   const [lang, setLang] = useState<Lang>('zh')
 
@@ -86,6 +90,8 @@ export function ReportClient({
               en={report.reflectionEn}
               reportId={report.reportId}
               initialResponse={initialResponse}
+              initialFeedback={initialFeedback}
+              studentAge={studentAge}
             />
             <ShareCard
               studentName={report.studentName}
