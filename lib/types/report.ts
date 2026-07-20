@@ -70,4 +70,7 @@ export type ReportVM = {
   reflectionEn: string | null
   reflectionFeedback: string | null
   studentAge: number | null
+  completedCount: number
+  streakWeeks: number
+  totalVocabCount: number
 }

@@ -85,6 +85,104 @@ export default async function ReportPage({
     .eq('lesson_report_id', report.id)
   const savedWords = (saved ?? []).map((r) => r.word)
 
+  // 學習統計
+  const { count: completedCount } = await supabase
+    .from('lessons')
+    .select('id', { count: 'exact', head: true })
+    .eq('student_id', student.id)
+    .eq('status', 'completed')
+    .eq('is_active', true)
+
+  const { count: totalVocabCount } = await supabase
+    .from('saved_vocabulary')
+    .select('id', { count: 'exact', head: true })
+    .eq('student_id', student.id)
+
+  // 計算連續週數
+  const { data: recentLessons } = await supabase
+    .from('lessons')
+    .select('date')
+    .eq('student_id', student.id)
+    .eq('status', 'completed')
+    .eq('is_active', true)
+    .order('date', { ascending: false })
+    .limit(52)
+
+  let streakWeeks = 0
+  if (recentLessons && recentLessons.length > 0) {
+    const weeks = new Set(recentLessons.map(l => {
+      const d = new Date(l.date + 'T00:00:00')
+      const startOfWeek = new Date(d)
+      startOfWeek.setDate(d.getDate() - d.getDay())
+      return startOfWeek.toISOString().slice(0, 10)
+    }))
+    const sortedWeeks = Array.from(weeks).sort().reverse()
+    const now = new Date()
+    const thisWeekStart = new Date(now)
+    thisWeekStart.setDate(now.getDate() - now.getDay())
+    const thisWeekStr = thisWeekStart.toISOString().slice(0, 10)
+    const lastWeekStart = new Date(thisWeekStart)
+    lastWeekStart.setDate(thisWeekStart.getDate() - 7)
+    const lastWeekStr = lastWeekStart.toISOString().slice(0, 10)
+    if (sortedWeeks[0] === thisWeekStr || sortedWeeks[0] === lastWeekStr) {
+      for (let i = 0; i < sortedWeeks.length; i++) {
+        const expected = new Date(thisWeekStart)
+        expected.setDate(thisWeekStart.getDate() - i * 7)
+        if (sortedWeeks[i] === expected.toISOString().slice(0, 10)) streakWeeks++
+        else break
+      }
+    }
+  }
+
+  // 學習統計
+  const { count: completedCount } = await supabase
+    .from('lessons')
+    .select('id', { count: 'exact', head: true })
+    .eq('student_id', student.id)
+    .eq('status', 'completed')
+    .eq('is_active', true)
+
+  const { count: totalVocabCount } = await supabase
+    .from('saved_vocabulary')
+    .select('id', { count: 'exact', head: true })
+    .eq('student_id', student.id)
+
+  // 計算連續週數
+  const { data: recentLessons } = await supabase
+    .from('lessons')
+    .select('date')
+    .eq('student_id', student.id)
+    .eq('status', 'completed')
+    .eq('is_active', true)
+    .order('date', { ascending: false })
+    .limit(52)
+
+  let streakWeeks = 0
+  if (recentLessons && recentLessons.length > 0) {
+    const weeks = new Set(recentLessons.map(l => {
+      const d = new Date(l.date + 'T00:00:00')
+      const startOfWeek = new Date(d)
+      startOfWeek.setDate(d.getDate() - d.getDay())
+      return startOfWeek.toISOString().slice(0, 10)
+    }))
+    const sortedWeeks = Array.from(weeks).sort().reverse()
+    const now = new Date()
+    const thisWeekStart = new Date(now)
+    thisWeekStart.setDate(now.getDate() - now.getDay())
+    const thisWeekStr = thisWeekStart.toISOString().slice(0, 10)
+    const lastWeekStart = new Date(thisWeekStart)
+    lastWeekStart.setDate(thisWeekStart.getDate() - 7)
+    const lastWeekStr = lastWeekStart.toISOString().slice(0, 10)
+    if (sortedWeeks[0] === thisWeekStr || sortedWeeks[0] === lastWeekStr) {
+      for (let i = 0; i < sortedWeeks.length; i++) {
+        const expected = new Date(thisWeekStart)
+        expected.setDate(thisWeekStart.getDate() - i * 7)
+        if (sortedWeeks[i] === expected.toISOString().slice(0, 10)) streakWeeks++
+        else break
+      }
+    }
+  }
+
   const lessonRel = one(report.lesson)
   const teacherRel = one(lessonRel?.teacher)
 
