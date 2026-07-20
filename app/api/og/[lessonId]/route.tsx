@@ -42,7 +42,6 @@ export async function GET(
     const previewWords = vocab.slice(0, 4).map((v: any) => v.word).filter(Boolean)
     const extraWords = Math.max(0, vocabCount - 4)
 
-    // 動態文案
     const lessonTagline = (() => {
       if (vocabCount > phraseCount * 2) return 'Heavy on vocabulary today.'
       if (phraseCount > vocabCount * 2) return 'Phrases were the focus today.'
@@ -52,7 +51,7 @@ export async function GET(
     const navy = '#1A2236'
     const gold = '#B8973A'
     const ivory = '#F7F4EE'
-    const ivoryDim = 'rgba(26,34,54,0.07)'
+    const dim = 'rgba(26,34,54,0.07)'
 
     if (template === 'milestone') {
       const { count: cc } = await admin
@@ -79,56 +78,40 @@ export async function GET(
 
       return new ImageResponse(
         <div style={{ display:'flex', flexDirection:'column', width:'100%', height:'100%', background:ivory, fontFamily:'sans-serif' }}>
-          {/* 頂部金線 */}
           <div style={{ display:'flex', width:'100%', height:'5px', background:gold }} />
 
-          {/* 主內容 */}
-          <div style={{ display:'flex', flexDirection:'column', flex:1, padding:'44px 80px 0' }}>
-            {/* 品牌列 */}
-            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'40px' }}>
-              <div style={{ display:'flex', fontSize:'13px', letterSpacing:'3px', color:navy, opacity:0.4 }}>BRIDGEWAY · CLASSROOM</div>
-              <div style={{ display:'flex', fontSize:'12px', letterSpacing:'2px', color:gold }}>LEARNING MILESTONE</div>
+          {/* 上半：大數字區 */}
+          <div style={{ display:'flex', flex:1, padding:'44px 80px 0' }}>
+            {/* 左側：大數字 */}
+            <div style={{ display:'flex', flexDirection:'column', justifyContent:'space-between', flex:1, paddingRight:'60px', borderRight:'1px solid ' + dim }}>
+              <div style={{ display:'flex', fontSize:'13px', letterSpacing:'3px', color:navy, opacity:0.38 }}>BRIDGEWAY · CLASSROOM</div>
+              <div style={{ display:'flex', flexDirection:'column' }}>
+                <div style={{ display:'flex', fontSize:'160px', fontWeight:800, color:navy, lineHeight:1, letterSpacing:'-6px' }}>{String(completedCount)}</div>
+                <div style={{ display:'flex', fontSize:'18px', color:navy, opacity:0.38, marginTop:'12px' }}>堂課完成</div>
+              </div>
+              <div style={{ display:'flex', fontSize:'22px', fontWeight:600, color:gold }}>{milestoneTagline}</div>
             </div>
 
-            {/* 大數字 + 文案 */}
-            <div style={{ display:'flex', flex:1, flexDirection:'column', alignItems:'center', justifyContent:'center' }}>
-              <div style={{ display:'flex', fontSize:'220px', fontWeight:800, color:navy, lineHeight:1, letterSpacing:'-10px' }}>
-                {String(completedCount)}
-              </div>
-              <div style={{ display:'flex', fontSize:'20px', color:navy, opacity:0.38, marginTop:'8px', letterSpacing:'1px' }}>
-                堂課完成
-              </div>
-              <div style={{ display:'flex', marginTop:'24px', paddingTop:'24px', borderTop:'1px solid ' + ivoryDim }}>
-                <div style={{ display:'flex', fontSize:'26px', fontWeight:600, color:gold, letterSpacing:'0.5px' }}>
-                  {milestoneTagline}
+            {/* 右側：統計 */}
+            <div style={{ display:'flex', flexDirection:'column', justifyContent:'space-between', paddingLeft:'60px', width:'360px' }}>
+              <div style={{ display:'flex', fontSize:'12px', letterSpacing:'2px', color:gold }}>LEARNING MILESTONE</div>
+
+              <div style={{ display:'flex', flexDirection:'column', gap:'32px' }}>
+                <div style={{ display:'flex', flexDirection:'column' }}>
+                  <div style={{ display:'flex', fontSize:'72px', fontWeight:800, color:navy, lineHeight:1 }}>{String(totalVocab)}</div>
+                  <div style={{ display:'flex', fontSize:'15px', color:navy, opacity:0.38, marginTop:'8px' }}>個詞彙收藏</div>
+                </div>
+                <div style={{ display:'flex', flexDirection:'column' }}>
+                  <div style={{ display:'flex', fontSize:'72px', fontWeight:800, color:gold, lineHeight:1 }}>{String(vocabCount + phraseCount)}</div>
+                  <div style={{ display:'flex', fontSize:'15px', color:navy, opacity:0.38, marginTop:'8px' }}>本堂學習詞彙</div>
                 </div>
               </div>
+
+              <div style={{ display:'flex', fontSize:'16px', color:navy, opacity:0.55 }}>{studentName} is on a roll.</div>
             </div>
           </div>
 
-          {/* 分隔線 */}
-          <div style={{ display:'flex', width:'100%', height:'1px', background:ivoryDim }} />
-
-          {/* 下半三格 */}
-          <div style={{ display:'flex', height:'150px', padding:'0 80px' }}>
-            <div style={{ display:'flex', flex:1, flexDirection:'column', alignItems:'center', justifyContent:'center', gap:'8px' }}>
-              <div style={{ display:'flex', fontSize:'60px', fontWeight:800, color:navy, lineHeight:1 }}>{String(totalVocab)}</div>
-              <div style={{ display:'flex', fontSize:'14px', color:navy, opacity:0.38, letterSpacing:'1px' }}>個詞彙收藏</div>
-            </div>
-            <div style={{ display:'flex', width:'1px', background:ivoryDim, margin:'24px 0' }} />
-            <div style={{ display:'flex', flex:1, flexDirection:'column', alignItems:'center', justifyContent:'center', gap:'8px' }}>
-              <div style={{ display:'flex', fontSize:'60px', fontWeight:800, color:gold, lineHeight:1 }}>{String(vocabCount + phraseCount)}</div>
-              <div style={{ display:'flex', fontSize:'14px', color:navy, opacity:0.38, letterSpacing:'1px' }}>本堂學習詞彙</div>
-            </div>
-            <div style={{ display:'flex', width:'1px', background:ivoryDim, margin:'24px 0' }} />
-            <div style={{ display:'flex', flex:1, flexDirection:'column', alignItems:'center', justifyContent:'center', gap:'8px' }}>
-              <div style={{ display:'flex', fontSize:'22px', fontWeight:700, color:navy, opacity:0.75 }}>{studentName}</div>
-              <div style={{ display:'flex', fontSize:'13px', color:navy, opacity:0.3 }}>is on a roll.</div>
-            </div>
-          </div>
-
-          {/* 底部 */}
-          <div style={{ display:'flex', width:'100%', height:'1px', background:ivoryDim }} />
+          <div style={{ display:'flex', width:'100%', height:'1px', background:dim, marginTop:'32px' }} />
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'16px 80px' }}>
             <div style={{ display:'flex', fontSize:'22px', fontWeight:700, color:navy }}>{studentName}</div>
             <div style={{ display:'flex', fontSize:'11px', color:navy, opacity:0.18, letterSpacing:'1px' }}>app.bridgewayenglish.net</div>
@@ -141,58 +124,58 @@ export async function GET(
     // Lesson template
     return new ImageResponse(
       <div style={{ display:'flex', flexDirection:'column', width:'100%', height:'100%', background:ivory, fontFamily:'sans-serif' }}>
-        {/* 頂部金線 */}
         <div style={{ display:'flex', width:'100%', height:'5px', background:gold }} />
 
-        <div style={{ display:'flex', flexDirection:'column', flex:1, padding:'44px 80px 0' }}>
-          {/* 品牌列 */}
-          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'28px' }}>
-            <div style={{ display:'flex', fontSize:'13px', letterSpacing:'3px', color:navy, opacity:0.4 }}>BRIDGEWAY · CLASSROOM</div>
-            <div style={{ display:'flex', fontSize:'12px', color:navy, opacity:0.28 }}>{dateFormatted}{teacherName ? '  ·  ' + teacherName : ''}</div>
+        {/* 上半：數字 + 單字 左右分欄 */}
+        <div style={{ display:'flex', flex:1, padding:'44px 80px 0' }}>
+          {/* 左側：數字 */}
+          <div style={{ display:'flex', flexDirection:'column', justifyContent:'space-between', flex:1, paddingRight:'60px', borderRight:'1px solid ' + dim }}>
+            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+              <div style={{ display:'flex', fontSize:'13px', letterSpacing:'3px', color:navy, opacity:0.38 }}>BRIDGEWAY · CLASSROOM</div>
+              <div style={{ display:'flex', fontSize:'12px', color:navy, opacity:0.25 }}>{dateFormatted}{teacherName ? ' · ' + teacherName : ''}</div>
+            </div>
+
+            <div style={{ display:'flex', flexDirection:'column' }}>
+              <div style={{ display:'flex', fontSize:'12px', letterSpacing:'2px', color:gold, marginBottom:'20px' }}>{"TODAY'S LESSON"}</div>
+              <div style={{ display:'flex', alignItems:'flex-end', gap:'20px' }}>
+                <div style={{ display:'flex', flexDirection:'column', alignItems:'center' }}>
+                  <div style={{ display:'flex', fontSize:'140px', fontWeight:800, color:navy, lineHeight:1, letterSpacing:'-6px' }}>{String(vocabCount)}</div>
+                  <div style={{ display:'flex', fontSize:'15px', color:navy, opacity:0.38, marginTop:'8px' }}>單字</div>
+                </div>
+                <div style={{ display:'flex', fontSize:'40px', color:navy, opacity:0.12, paddingBottom:'32px' }}>+</div>
+                <div style={{ display:'flex', flexDirection:'column', alignItems:'center' }}>
+                  <div style={{ display:'flex', fontSize:'140px', fontWeight:800, color:gold, lineHeight:1, letterSpacing:'-6px' }}>{String(phraseCount)}</div>
+                  <div style={{ display:'flex', fontSize:'15px', color:navy, opacity:0.38, marginTop:'8px' }}>片語</div>
+                </div>
+              </div>
+            </div>
+
+            <div style={{ display:'flex', fontSize:'22px', fontWeight:600, color:gold }}>{lessonTagline}</div>
           </div>
 
-          {/* TODAY'S LESSON */}
-          <div style={{ display:'flex', fontSize:'12px', letterSpacing:'2px', color:gold, marginBottom:'16px' }}>{"TODAY'S LESSON"}</div>
+          {/* 右側：單字列表 */}
+          <div style={{ display:'flex', flexDirection:'column', justifyContent:'space-between', paddingLeft:'60px', width:'340px' }}>
+            <div style={{ display:'flex', fontSize:'11px', letterSpacing:'2px', color:gold }}>NEW VOCABULARY</div>
 
-          {/* 數字 + 文案 */}
-          <div style={{ display:'flex', flex:1, flexDirection:'column', alignItems:'center', justifyContent:'center' }}>
-            <div style={{ display:'flex', alignItems:'center', gap:'48px', marginBottom:'20px' }}>
-              <div style={{ display:'flex', flexDirection:'column', alignItems:'center' }}>
-                <div style={{ display:'flex', fontSize:'180px', fontWeight:800, color:navy, lineHeight:1, letterSpacing:'-8px' }}>{String(vocabCount)}</div>
-                <div style={{ display:'flex', fontSize:'16px', color:navy, opacity:0.38, marginTop:'8px' }}>單字</div>
-              </div>
-              <div style={{ display:'flex', fontSize:'48px', color:navy, opacity:0.1, paddingBottom:'40px' }}>+</div>
-              <div style={{ display:'flex', flexDirection:'column', alignItems:'center' }}>
-                <div style={{ display:'flex', fontSize:'180px', fontWeight:800, color:gold, lineHeight:1, letterSpacing:'-8px' }}>{String(phraseCount)}</div>
-                <div style={{ display:'flex', fontSize:'16px', color:navy, opacity:0.38, marginTop:'8px' }}>片語</div>
-              </div>
+            <div style={{ display:'flex', flexDirection:'column', gap:'20px', flex:1, justifyContent:'center' }}>
+              {previewWords.map((word: string, i: number) => (
+                <div key={i} style={{ display:'flex', flexDirection:'column' }}>
+                  <div style={{ display:'flex', fontSize:'28px', fontWeight: i === 0 ? 700 : 500, color:navy, opacity:0.82 }}>{word}</div>
+                  {i < previewWords.length - 1 && (
+                    <div style={{ display:'flex', width:'100%', height:'1px', background:dim, marginTop:'20px' }} />
+                  )}
+                </div>
+              ))}
+              {extraWords > 0 && (
+                <div style={{ display:'flex', fontSize:'16px', color:gold, opacity:0.6 }}>+{extraWords} more</div>
+              )}
             </div>
-            {/* 動態文案 */}
-            <div style={{ display:'flex', fontSize:'24px', fontWeight:600, color:gold }}>
-              {lessonTagline}
-            </div>
+
+            <div style={{ display:'flex', fontSize:'16px', color:navy, opacity:0.55 }}>{studentName} showed up today.</div>
           </div>
         </div>
 
-        {/* 分隔線 */}
-        <div style={{ display:'flex', width:'100%', height:'1px', background:ivoryDim }} />
-
-        {/* 單字列 */}
-        <div style={{ display:'flex', alignItems:'center', height:'112px', padding:'0 80px', gap:'28px' }}>
-          <div style={{ display:'flex', fontSize:'11px', letterSpacing:'2px', color:gold, flexShrink:0 }}>NEW VOCABULARY</div>
-          <div style={{ display:'flex', width:'1px', height:'32px', background:ivoryDim, flexShrink:0 }} />
-          <div style={{ display:'flex', alignItems:'center', gap:'24px', flex:1 }}>
-            {previewWords.map((word: string, i: number) => (
-              <div key={i} style={{ display:'flex', fontSize:'28px', fontWeight: i === 0 ? 700 : 500, color:navy, opacity: i === 0 ? 0.85 : 0.65, flexShrink:0 }}>{word}</div>
-            ))}
-            {extraWords > 0 && (
-              <div style={{ display:'flex', fontSize:'18px', color:gold, opacity:0.55 }}>+{extraWords} more</div>
-            )}
-          </div>
-        </div>
-
-        {/* 底部 */}
-        <div style={{ display:'flex', width:'100%', height:'1px', background:ivoryDim }} />
+        <div style={{ display:'flex', width:'100%', height:'1px', background:dim, marginTop:'32px' }} />
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'16px 80px' }}>
           <div style={{ display:'flex', fontSize:'22px', fontWeight:700, color:navy }}>{studentName}</div>
           <div style={{ display:'flex', fontSize:'11px', color:navy, opacity:0.18, letterSpacing:'1px' }}>app.bridgewayenglish.net</div>
