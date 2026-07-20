@@ -93,11 +93,11 @@ export async function GET(
           </div>
           <div style={{ display:'flex', width:'100%', height:'1px', background:'rgba(26,34,54,0.06)' }} />
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'16px 80px' }}>
-            <div style={{ display:'flex', fontSize:'18px', fontWeight:600, color:navy }}>{studentName}</div>
+            <div style={{ display:'flex', fontSize:'22px', fontWeight:700, color:navy }}>{studentName}</div>
             <div style={{ display:'flex', fontSize:'11px', color:navy, opacity:0.18, letterSpacing:'1px' }}>app.bridgewayenglish.net</div>
           </div>
         </div>,
-        { width: 1200, height: 630 }
+        { width: 1200, height: 630, emoji: "twemoji" }
       )
     }
 
@@ -128,20 +128,20 @@ export async function GET(
           <div style={{ display:'flex', width:'1px', height:'32px', background:'rgba(26,34,54,0.08)', flexShrink:0 }} />
           <div style={{ display:'flex', alignItems:'center', gap:'24px', flex:1 }}>
             {previewWords.map((word: string, i: number) => (
-              <div key={i} style={{ display:'flex', fontSize:'26px', fontWeight: i === 0 ? 600 : 400, color:navy, opacity:0.72, flexShrink:0 }}>{word}</div>
+              <div key={i} style={{ display:'flex', fontSize:'30px', fontWeight: i === 0 ? 700 : 500, color:navy, opacity:0.78, flexShrink:0 }}>{word}</div>
             ))}
             {extraWords > 0 && (
-              <div style={{ display:'flex', fontSize:'16px', color:navy, opacity:0.25 }}>+{extraWords} more</div>
+              <div style={{ display:'flex', fontSize:'18px', color:gold, opacity:0.6 }}>+{extraWords} more</div>
             )}
           </div>
         </div>
         <div style={{ display:'flex', width:'100%', height:'1px', background:'rgba(26,34,54,0.06)' }} />
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'16px 80px' }}>
-          <div style={{ display:'flex', fontSize:'18px', fontWeight:600, color:navy }}>{studentName}</div>
+          <div style={{ display:'flex', fontSize:'22px', fontWeight:700, color:navy }}>{studentName}</div>
           <div style={{ display:'flex', fontSize:'11px', color:navy, opacity:0.18, letterSpacing:'1px' }}>app.bridgewayenglish.net</div>
         </div>
       </div>,
-      { width: 1200, height: 630 }
+      { width: 1200, height: 630, emoji: "twemoji" }
     )
   } catch (err) {
     console.error('OG image error:', err)
