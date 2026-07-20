@@ -26,11 +26,17 @@ export type ReportStrength = {
   en?: string
 }
 
+export type ReportErrorExample = {
+  original: string
+  correction: string
+}
+
 export type ReportError = {
   pattern?: string
   pattern_zh?: string
   pattern_en?: string
   count?: number
+  examples?: ReportErrorExample[]
   example?: string
   correction?: string
   tip_zh?: string
