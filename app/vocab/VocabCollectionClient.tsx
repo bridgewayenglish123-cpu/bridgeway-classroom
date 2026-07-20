@@ -1,5 +1,5 @@
 'use client'
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useTransition } from 'react'
 import Link from 'next/link'
 
 type VocabItem = {
@@ -12,8 +12,29 @@ type VocabItem = {
   teacherName: string | null
 }
 
-export function VocabCollectionClient({ items }: { items: VocabItem[] }) {
+export function VocabCollectionClient({ items: initialItems }: { items: VocabItem[] }) {
+  const [items, setItems] = useState(initialItems)
   const [search, setSearch] = useState('')
+  const [confirmItem, setConfirmItem] = useState<VocabItem | null>(null)
+  const [, startTransition] = useTransition()
+
+  const handleRemove = (item: VocabItem) => {
+    setConfirmItem(item)
+  }
+
+  const confirmRemove = () => {
+    if (!confirmItem) return
+    const id = confirmItem.id
+    setItems(prev => prev.filter(i => i.id !== id))
+    setConfirmItem(null)
+    startTransition(async () => {
+      await fetch('/api/vocab/remove', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      })
+    })
+  }
   const [filter, setFilter] = useState<'all' | 'word' | 'phrase'>('all')
   const [sort, setSort] = useState<'newest' | 'oldest' | 'az' | 'za'>('newest')
 
@@ -144,12 +165,18 @@ export function VocabCollectionClient({ items }: { items: VocabItem[] }) {
                 </div>
               )}
             </div>
-            {item.lessonId && (
-              <Link href={`/report/${item.lessonId}`}
-                className="flex-shrink-0 text-[11px] sm:text-[12px] font-medium text-gold/70 transition hover:text-gold whitespace-nowrap">
-                查看報告 →
-              </Link>
-            )}
+            <div className="flex flex-col items-end gap-2 flex-shrink-0">
+              {item.lessonId && (
+                <Link href={`/report/${item.lessonId}`}
+                  className="text-[11px] sm:text-[12px] font-medium text-gold/70 transition hover:text-gold whitespace-nowrap">
+                  查看報告 →
+                </Link>
+              )}
+              <button onClick={() => handleRemove(item)}
+                className="text-[11px] text-ink-muted/50 transition hover:text-red-400 whitespace-nowrap">
+                移除
+              </button>
+            </div>
           </div>
         ))}
 
@@ -167,5 +194,28 @@ export function VocabCollectionClient({ items }: { items: VocabItem[] }) {
         )}
       </div>
     </main>
+    {/* 取消收藏確認 Modal */}
+    {confirmItem && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
+        style={{ background: 'rgba(26,34,54,0.55)' }}
+        onClick={(e) => { if (e.target === e.currentTarget) setConfirmItem(null) }}>
+        <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl space-y-4">
+          <h3 className="font-serif text-[18px] font-semibold text-navy">移除收藏？</h3>
+          <p className="text-[14px] leading-[1.7] text-ink-mid">
+            確定要從單字本移除「{confirmItem.word}」嗎？
+          </p>
+          <div className="flex gap-2 justify-end">
+            <button onClick={() => setConfirmItem(null)}
+              className="px-4 py-2 rounded-field text-[13px] font-medium text-ink-mid border border-ivory-dim transition hover:border-navy">
+              保留
+            </button>
+            <button onClick={confirmRemove}
+              className="px-5 py-2 rounded-field bg-navy text-[13px] font-semibold text-ivory transition hover:opacity-90">
+              確認移除
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
   )
 }
