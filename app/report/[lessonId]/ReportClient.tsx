@@ -99,6 +99,7 @@ export function ReportClient({
               strengthZh={report.strengths[0]?.zh ?? null}
               vocabCount={report.vocabulary.length}
               phraseCount={report.phrases.length}
+              lessonId={report.lessonId}
             />
           </div>
 
