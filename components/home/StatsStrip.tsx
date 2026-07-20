@@ -60,7 +60,9 @@ export function StatsStrip({
       )}
       <div className="flex gap-3">
         <Stat num={completed} label="堂課完成" highlight={completed > 0 && completed % 5 === 0} />
-        <Stat num={vocab} label="學習單字" />
+        <Link href="/vocab" className="flex-1 block transition hover:scale-[1.02]">
+          <Stat num={vocab} label="學習單字 →" />
+        </Link>
         <Stat num={weeks} unit="週" label="學習連續" highlight={weeks >= 4} />
       </div>
       {remaining && remaining <= 3 && (

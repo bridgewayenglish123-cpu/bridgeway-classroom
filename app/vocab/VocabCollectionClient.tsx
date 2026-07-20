@@ -78,7 +78,7 @@ export function VocabCollectionClient({ items }: { items: VocabItem[] }) {
 
         <div className="flex gap-2 flex-wrap">
           {/* 篩選 */}
-          <div className="flex gap-1 rounded-xl p-1" style={{ background: '#EDE9E0' }}>
+          <div className="flex flex-wrap gap-1 rounded-xl p-1" style={{ background: '#EDE9E0' }}>
             {([
               { value: 'all', label: '全部' },
               { value: 'word', label: '單字' },
@@ -96,7 +96,7 @@ export function VocabCollectionClient({ items }: { items: VocabItem[] }) {
           </div>
 
           {/* 排序 */}
-          <div className="flex gap-1 rounded-xl p-1" style={{ background: '#EDE9E0' }}>
+          <div className="flex flex-wrap gap-1 rounded-xl p-1" style={{ background: '#EDE9E0' }}>
             {([
               { value: 'newest', label: '最新' },
               { value: 'oldest', label: '最舊' },
@@ -146,7 +146,7 @@ export function VocabCollectionClient({ items }: { items: VocabItem[] }) {
             </div>
             {item.lessonId && (
               <Link href={`/report/${item.lessonId}`}
-                className="flex-shrink-0 text-[12px] font-medium text-gold/70 transition hover:text-gold">
+                className="flex-shrink-0 text-[11px] sm:text-[12px] font-medium text-gold/70 transition hover:text-gold whitespace-nowrap">
                 查看報告 →
               </Link>
             )}

@@ -151,6 +151,17 @@ export function HistoryClient({
           </div>
         )}
       </div>
+      {/* 單字本入口 */}
+      <div className="mt-6">
+        <Link href="/vocab"
+          className="flex items-center justify-between rounded-2xl bg-white p-4 sm:p-5 shadow-sm border border-ivory-dim transition hover:border-gold hover:shadow-md">
+          <div>
+            <div className="font-semibold text-[15px] text-navy">我的單字本</div>
+            <div className="text-[12px] mt-0.5 text-ink-muted">查看所有收藏的單字和片語</div>
+          </div>
+          <span className="text-gold text-[18px]">★</span>
+        </Link>
+      </div>
     </main>
   )
 }
