@@ -62,4 +62,6 @@ export type ReportVM = {
   comparison: ReportComparison | null
   reflectionZh: string | null
   reflectionEn: string | null
+  reflectionFeedback: string | null
+  studentAge: number | null
 }
