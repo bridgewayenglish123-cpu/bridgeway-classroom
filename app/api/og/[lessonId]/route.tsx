@@ -102,9 +102,9 @@ export async function GET(
                 <div style={{ display:'flex', fontSize:'12px', letterSpacing:'2px', color:gold }}>LEARNING MILESTONE</div>
               </div>
 
-              <div style={{ display:'flex', flexDirection:'column' }}>
-                <div style={{ display:'flex', fontSize:'180px', fontWeight:800, color:navy, lineHeight:1, letterSpacing:'-8px' }}>{String(completedCount)}</div>
-                <div style={{ display:'flex', fontSize:'20px', color:navy, opacity:0.38, marginTop:'10px' }}>堂課完成</div>
+              <div style={{ display:'flex', flexDirection:'column', flex:1, justifyContent:'center' }}>
+                <div style={{ display:'flex', fontSize:'220px', fontWeight:800, color:navy, lineHeight:1, letterSpacing:'-10px' }}>{String(completedCount)}</div>
+                <div style={{ display:'flex', fontSize:'20px', color:navy, opacity:0.38, marginTop:'12px' }}>堂課完成</div>
               </div>
 
               <div style={{ display:'flex', flexDirection:'column', gap:'6px' }}>
@@ -155,17 +155,17 @@ export async function GET(
               <div style={{ display:'flex', fontSize:'12px', color:navy, opacity:0.25 }}>{dateFormatted}{teacherName ? ' · ' + teacherName : ''}</div>
             </div>
 
-            <div style={{ display:'flex', flexDirection:'column' }}>
-              <div style={{ display:'flex', fontSize:'12px', letterSpacing:'2px', color:gold, marginBottom:'16px' }}>{"TODAY'S LESSON"}</div>
-              <div style={{ display:'flex', alignItems:'center', gap:'16px' }}>
+            <div style={{ display:'flex', flexDirection:'column', flex:1, justifyContent:'center' }}>
+              <div style={{ display:'flex', fontSize:'12px', letterSpacing:'2px', color:gold, marginBottom:'20px' }}>{"TODAY'S LESSON"}</div>
+              <div style={{ display:'flex', alignItems:'center', gap:'20px' }}>
                 <div style={{ display:'flex', flexDirection:'column', alignItems:'center' }}>
-                  <div style={{ display:'flex', fontSize:'160px', fontWeight:800, color:navy, lineHeight:1, letterSpacing:'-6px' }}>{String(vocabCount)}</div>
-                  <div style={{ display:'flex', fontSize:'16px', color:navy, opacity:0.38, marginTop:'8px' }}>單字</div>
+                  <div style={{ display:'flex', fontSize:'200px', fontWeight:800, color:navy, lineHeight:1, letterSpacing:'-8px' }}>{String(vocabCount)}</div>
+                  <div style={{ display:'flex', fontSize:'18px', color:navy, opacity:0.38, marginTop:'10px' }}>單字</div>
                 </div>
-                <div style={{ display:'flex', fontSize:'36px', color:navy, opacity:0.1, paddingBottom:'32px' }}>+</div>
+                <div style={{ display:'flex', fontSize:'40px', color:navy, opacity:0.1, paddingBottom:'40px' }}>+</div>
                 <div style={{ display:'flex', flexDirection:'column', alignItems:'center' }}>
-                  <div style={{ display:'flex', fontSize:'160px', fontWeight:800, color:gold, lineHeight:1, letterSpacing:'-6px' }}>{String(phraseCount)}</div>
-                  <div style={{ display:'flex', fontSize:'16px', color:navy, opacity:0.38, marginTop:'8px' }}>片語</div>
+                  <div style={{ display:'flex', fontSize:'200px', fontWeight:800, color:gold, lineHeight:1, letterSpacing:'-8px' }}>{String(phraseCount)}</div>
+                  <div style={{ display:'flex', fontSize:'18px', color:navy, opacity:0.38, marginTop:'10px' }}>片語</div>
                 </div>
               </div>
             </div>
