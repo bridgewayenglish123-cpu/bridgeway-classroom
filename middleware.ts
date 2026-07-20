@@ -31,6 +31,10 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
+  // OG 圖片 API 不需要登入
+  const isOgRoute = request.nextUrl.pathname.startsWith('/api/og')
+  if (isOgRoute) return supabaseResponse
+
   const isAuthRoute = request.nextUrl.pathname.startsWith('/auth')
 
   // 未登入且非 /auth 路由 → 導向登入頁
