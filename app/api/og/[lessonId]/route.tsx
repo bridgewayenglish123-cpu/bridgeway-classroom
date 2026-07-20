@@ -292,8 +292,9 @@ export async function GET(
 
     const resvg = new Resvg(svg, { fitTo: { mode: 'width', value: 1200 } })
     const png = resvg.render().asPng()
+    const buffer = Buffer.from(png)
 
-    return new Response(png, {
+    return new Response(buffer as unknown as BodyInit, {
       headers: {
         'Content-Type': 'image/png',
         'Cache-Control': 'public, max-age=3600',
