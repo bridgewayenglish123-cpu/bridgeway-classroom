@@ -14,6 +14,23 @@ import type {
   ReportVocabulary,
 } from '@/lib/types/report'
 
+
+export async function generateMetadata({ params }: { params: { lessonId: string } }) {
+  const ogUrl = `https://app.bridgewayenglish.net/api/og/${params.lessonId}`
+  const reportUrl = `https://app.bridgewayenglish.net/report/${params.lessonId}`
+  return {
+    openGraph: {
+      images: [{ url: ogUrl, width: 1200, height: 630 }],
+      url: reportUrl,
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      images: [ogUrl],
+    },
+  }
+}
+
 export const dynamic = 'force-dynamic'
 
 function NotFound({ message }: { message: string }) {
