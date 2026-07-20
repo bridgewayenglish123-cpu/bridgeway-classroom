@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 
 type Template = 'lesson' | 'milestone'
 
@@ -114,13 +115,16 @@ export function ShareCard({
                 <span className="text-[13px] text-ivory/50">預覽載入失敗</span>
               </div>
             )}
-            <img
+            <Image
               src={ogUrl(template)}
               alt="成就卡預覽"
-              className="w-full"
+              width={1200}
+              height={630}
+              className="w-full h-auto"
               style={{ opacity: imageLoaded ? 1 : 0, transition: 'opacity 0.3s' }}
               onLoad={() => { setImageLoaded(true); setImageError(false) }}
               onError={() => { setImageError(true); setImageLoaded(false) }}
+              unoptimized
             />
           </div>
 
