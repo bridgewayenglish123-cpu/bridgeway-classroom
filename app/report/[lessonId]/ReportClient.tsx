@@ -100,6 +100,9 @@ export function ReportClient({
               vocabCount={report.vocabulary.length}
               phraseCount={report.phrases.length}
               lessonId={report.lessonId}
+              completedCount={report.completedCount}
+              streakWeeks={report.streakWeeks}
+              totalVocabCount={report.totalVocabCount}
             />
           </div>
 
