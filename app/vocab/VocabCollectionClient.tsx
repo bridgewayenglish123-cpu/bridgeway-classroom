@@ -64,6 +64,7 @@ export function VocabCollectionClient({ items: initialItems }: { items: VocabIte
   }, [items, search, filter, sort])
 
   return (
+    <>
     <main className="mx-auto max-w-[800px] px-5 pb-16 pt-8 sm:px-8">
       {/* Header */}
       <div className="mb-6">
@@ -217,5 +218,6 @@ export function VocabCollectionClient({ items: initialItems }: { items: VocabIte
         </div>
       </div>
     )}
+    </>
   )
 }
