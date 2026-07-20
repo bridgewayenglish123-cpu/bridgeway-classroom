@@ -208,6 +208,16 @@ export default async function HomePage() {
               weeks={streakWeeks}
             />
             <HistoryList items={history} totalCompleted={completedCount} />
+
+            {/* 單字本入口 */}
+            <a href="/vocab"
+              className="mt-2 flex items-center justify-between rounded-2xl bg-white px-5 py-4 shadow-sm border border-ivory-dim transition hover:border-gold hover:shadow-md">
+              <div>
+                <div className="font-semibold text-[15px] text-navy">我的單字本</div>
+                <div className="text-[12px] mt-0.5 text-ink-muted">查看所有收藏的單字和片語</div>
+              </div>
+              <span className="text-gold text-[20px]">★</span>
+            </a>
           </div>
 
           {/* 右欄：上堂課完整摘要（固定在側邊） */}

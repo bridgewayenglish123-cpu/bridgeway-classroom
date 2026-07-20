@@ -27,6 +27,10 @@ export function Nav({ name }: { name: string }) {
         Bridgeway <span className="text-gold-light">Classroom</span>
       </div>
       <div className="flex items-center gap-2.5">
+        <Link href="/vocab"
+          className="hidden sm:block text-[12px] text-ivory/60 transition hover:text-ivory/90 mr-1">
+          單字本
+        </Link>
         <span className="text-[12px] text-ivory/50">{name}</span>
         <div className="flex h-[34px] w-[34px] flex-shrink-0 items-center justify-center rounded-full bg-gold text-[11px] font-semibold tracking-[0.03em] text-white">
           {initials(name)}
