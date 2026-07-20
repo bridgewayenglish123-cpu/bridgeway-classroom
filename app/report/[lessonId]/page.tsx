@@ -68,12 +68,14 @@ export default async function ReportPage({
     return <NotFound message="這堂課的報告還沒生成，或你沒有權限查看。" />
   }
 
-  const { data: reflection } = await supabase
+  const reflectionQuery = await (supabase as any)
     .from('reflection_responses')
-    .select('question_zh, question_en, response, feedback, feedback_at')
+    .select('question_zh, question_en, response, feedback')
     .eq('lesson_report_id', report.id)
     .eq('student_id', student.id)
     .maybeSingle()
+  const reflection = reflectionQuery.data
+
 
   // 該報告已收藏的單字/片語（key = word 欄位值）
   const { data: saved } = await supabase
@@ -103,6 +105,8 @@ export default async function ReportPage({
     comparison: report.comparison as unknown as ReportComparison | null,
     reflectionZh: reflection?.question_zh ?? null,
     reflectionEn: reflection?.question_en ?? null,
+    reflectionFeedback: reflection?.feedback ?? null,
+    studentAge: (student as any)?.age ?? null,
   }
 
   return (
@@ -110,6 +114,8 @@ export default async function ReportPage({
       report={vm}
       savedWords={savedWords}
       initialResponse={reflection?.response ?? null}
+      initialFeedback={reflection?.feedback ?? null}
+      studentAge={(student as any)?.age ?? null}
     />
   )
 }
