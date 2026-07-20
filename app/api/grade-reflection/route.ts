@@ -2,8 +2,6 @@ import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { createClient } from '@/lib/supabase/server'
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! })
-
 export async function POST(req: Request) {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -43,15 +41,22 @@ export async function POST(req: Request) {
 }`
 
   try {
-    const message = await anthropic.messages.create({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 1500,
-      messages: [{ role: 'user', content: prompt }],
+    const apiRes = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': process.env.ANTHROPIC_API_KEY!,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1500,
+        messages: [{ role: 'user', content: prompt }],
+      }),
     })
-
-    const block = message.content[0]
+    const apiData = await apiRes.json()
+    const block = apiData.content?.[0]
     if (!block || block.type !== 'text') throw new Error('Invalid response')
-
     const jsonText = block.text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim()
     const feedback = JSON.parse(jsonText)
 
@@ -61,7 +66,7 @@ export async function POST(req: Request) {
       .update({
         feedback: JSON.stringify(feedback),
         feedback_at: new Date().toISOString(),
-      })
+      } as any)
       .eq('lesson_report_id', reportId)
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })

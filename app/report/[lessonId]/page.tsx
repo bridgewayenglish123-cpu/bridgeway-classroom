@@ -70,7 +70,7 @@ export default async function ReportPage({
 
   const { data: reflection } = await supabase
     .from('reflection_responses')
-    .select('question_zh, question_en, response, feedback')
+    .select('question_zh, question_en, response, feedback, feedback_at')
     .eq('lesson_report_id', report.id)
     .eq('student_id', student.id)
     .maybeSingle()
