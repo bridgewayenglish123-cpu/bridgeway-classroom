@@ -102,7 +102,7 @@ export async function GET(
                 <div style={{ display:'flex', fontSize:'12px', letterSpacing:'2px', color:gold }}>LEARNING MILESTONE</div>
               </div>
 
-              <div style={{ display:'flex', flexDirection:'column', flex:1, justifyContent:'center' }}>
+              <div style={{ display:'flex', flexDirection:'column', paddingTop:'40px', paddingBottom:'32px' }}>
                 <div style={{ display:'flex', fontSize:'220px', fontWeight:800, color:navy, lineHeight:1, letterSpacing:'-10px' }}>{String(completedCount)}</div>
                 <div style={{ display:'flex', fontSize:'20px', color:navy, opacity:0.38, marginTop:'12px' }}>堂課完成</div>
               </div>
@@ -155,7 +155,7 @@ export async function GET(
               <div style={{ display:'flex', fontSize:'12px', color:navy, opacity:0.25 }}>{dateFormatted}{teacherName ? ' · ' + teacherName : ''}</div>
             </div>
 
-            <div style={{ display:'flex', flexDirection:'column', flex:1, justifyContent:'center' }}>
+            <div style={{ display:'flex', flexDirection:'column', paddingTop:'24px', paddingBottom:'24px' }}>
               <div style={{ display:'flex', fontSize:'12px', letterSpacing:'2px', color:gold, marginBottom:'20px' }}>{"TODAY'S LESSON"}</div>
               <div style={{ display:'flex', alignItems:'center', gap:'20px' }}>
                 <div style={{ display:'flex', flexDirection:'column', alignItems:'center' }}>
