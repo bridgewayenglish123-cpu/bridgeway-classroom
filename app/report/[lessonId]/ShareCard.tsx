@@ -21,6 +21,8 @@ export function ShareCard({
   const [showOptions, setShowOptions] = useState(false)
   const [copied, setCopied] = useState(false)
   const [template, setTemplate] = useState<Template>('lesson')
+  const [imageLoaded, setImageLoaded] = useState(false)
+  const [imageError, setImageError] = useState(false)
 
   const ogUrl = (t: Template) =>
     'https://app.bridgewayenglish.net/api/og/' + lessonId + '?t=' + t
@@ -101,12 +103,24 @@ export function ShareCard({
           </div>
 
           {/* OG 圖片預覽 */}
-          <div className="overflow-hidden rounded-xl border border-ivory-dim">
+          <div className="overflow-hidden rounded-xl border border-ivory-dim" style={{ aspectRatio: '1200/630', background: '#1A2236', position: 'relative' }}>
+            {!imageLoaded && !imageError && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="h-5 w-5 animate-spin rounded-full border-2 border-gold border-t-transparent" />
+              </div>
+            )}
+            {imageError && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-[13px] text-ivory/50">預覽載入失敗</span>
+              </div>
+            )}
             <img
               src={ogUrl(template)}
               alt="成就卡預覽"
               className="w-full"
-              style={{ aspectRatio: '1200/630' }}
+              style={{ opacity: imageLoaded ? 1 : 0, transition: 'opacity 0.3s' }}
+              onLoad={() => { setImageLoaded(true); setImageError(false) }}
+              onError={() => { setImageError(true); setImageLoaded(false) }}
             />
           </div>
 
