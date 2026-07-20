@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og'
 import { createAdminClient } from '@/lib/supabase/admin'
 import type { ReportAnalysis, ReportStrength, ReportVocabulary } from '@/lib/types/report'
 
-export const runtime = 'edge'
+export const runtime = 'nodejs'
 
 export async function GET(
   req: Request,
