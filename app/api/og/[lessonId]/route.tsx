@@ -18,7 +18,7 @@ export async function GET(
 
     const { data: lesson } = await admin
       .from('lessons')
-      .select('id, date, duration, student_id, student:students!student_id(en_name, zh_name), teacher:teachers!teacher_id(teacher_name)')
+      .select('id, date, student_id, student:students!student_id(en_name, zh_name), teacher:teachers!teacher_id(teacher_name)')
       .eq('id', lessonId)
       .single()
 
@@ -46,6 +46,7 @@ export async function GET(
     const gold = '#C2991F'
     const navy = '#1A2236'
     const ivory = '#F7F4EE'
+    const flex = { display: 'flex' } as const
 
     if (template === 'milestone') {
       const { count: completedCount } = await admin
@@ -56,30 +57,24 @@ export async function GET(
         .eq('is_active', true)
 
       return new ImageResponse(
-        <div style={{
-          width: '100%', height: '100%',
-          background: navy,
-          display: 'flex', flexDirection: 'column',
-          padding: '60px',
-          fontFamily: 'sans-serif',
-        }}>
-          <div style={{ color: gold, fontSize: '16px', letterSpacing: '0.15em', marginBottom: '40px' }}>
+        <div style={{ ...flex, flexDirection: 'column', width: '100%', height: '100%', background: navy, padding: '60px', fontFamily: 'sans-serif' }}>
+          <div style={{ ...flex, color: gold, fontSize: '16px', letterSpacing: '0.15em', marginBottom: '40px' }}>
             BRIDGEWAY · CLASSROOM
           </div>
-          <div style={{ color: ivory, fontSize: '18px', marginBottom: '48px', opacity: 0.7 }}>
+          <div style={{ ...flex, color: ivory, fontSize: '18px', marginBottom: '48px', opacity: 0.7 }}>
             {studentName}
           </div>
-          <div style={{ display: 'flex', gap: '60px', marginBottom: '48px' }}>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <div style={{ color: gold, fontSize: '72px', fontWeight: 700, lineHeight: 1 }}>{completedCount ?? 0}</div>
-              <div style={{ color: ivory, fontSize: '14px', opacity: 0.5, marginTop: '8px' }}>堂課完成</div>
+          <div style={{ ...flex, flexDirection: 'row', gap: '60px', marginBottom: '48px' }}>
+            <div style={{ ...flex, flexDirection: 'column' }}>
+              <div style={{ ...flex, color: gold, fontSize: '72px', fontWeight: 700, lineHeight: 1 }}>{completedCount ?? 0}</div>
+              <div style={{ ...flex, color: ivory, fontSize: '14px', opacity: 0.5, marginTop: '8px' }}>堂課完成</div>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <div style={{ color: gold, fontSize: '72px', fontWeight: 700, lineHeight: 1 }}>{vocabCount + phraseCount}</div>
-              <div style={{ color: ivory, fontSize: '14px', opacity: 0.5, marginTop: '8px' }}>個詞彙學習</div>
+            <div style={{ ...flex, flexDirection: 'column' }}>
+              <div style={{ ...flex, color: gold, fontSize: '72px', fontWeight: 700, lineHeight: 1 }}>{vocabCount + phraseCount}</div>
+              <div style={{ ...flex, color: ivory, fontSize: '14px', opacity: 0.5, marginTop: '8px' }}>個詞彙學習</div>
             </div>
           </div>
-          <div style={{ color: ivory, fontSize: '13px', opacity: 0.3 }}>
+          <div style={{ ...flex, color: ivory, fontSize: '13px', opacity: 0.3 }}>
             app.bridgewayenglish.net
           </div>
         </div>,
@@ -88,46 +83,36 @@ export async function GET(
     }
 
     return new ImageResponse(
-      <div style={{
-        width: '100%', height: '100%',
-        background: navy,
-        display: 'flex', flexDirection: 'column',
-        padding: '60px',
-        fontFamily: 'sans-serif',
-      }}>
-        <div style={{ color: gold, fontSize: '16px', letterSpacing: '0.15em', marginBottom: '32px' }}>
+      <div style={{ ...flex, flexDirection: 'column', width: '100%', height: '100%', background: navy, padding: '60px', fontFamily: 'sans-serif' }}>
+        <div style={{ ...flex, color: gold, fontSize: '16px', letterSpacing: '0.15em', marginBottom: '32px' }}>
           BRIDGEWAY · CLASSROOM
         </div>
-        <div style={{ color: ivory, fontSize: '16px', opacity: 0.6, marginBottom: '20px' }}>
+        <div style={{ ...flex, color: ivory, fontSize: '16px', opacity: 0.6, marginBottom: '20px' }}>
           {studentName}{date ? ' · ' + date.slice(5).replace('-', '/') : ''}{teacherName ? ' · ' + teacherName : ''}
         </div>
-        {headline ? (
-          <div style={{ color: ivory, fontSize: '28px', fontWeight: 600, lineHeight: 1.4, marginBottom: '32px', maxWidth: '900px' }}>
-            {headline}
+        <div style={{ ...flex, color: ivory, fontSize: '26px', fontWeight: 600, lineHeight: 1.4, marginBottom: '28px', maxWidth: '900px' }}>
+          {headline || studentName + ' 的學習報告'}
+        </div>
+        <div style={{ ...flex, flexDirection: 'column', marginBottom: '28px' }}>
+          <div style={{ ...flex, color: gold, fontSize: '13px', letterSpacing: '0.12em', marginBottom: '10px' }}>
+            {strength ? '這堂課最大的進步' : ''}
           </div>
-        ) : null}
-        {strength ? (
-          <div style={{ marginBottom: '32px' }}>
-            <div style={{ color: gold, fontSize: '13px', letterSpacing: '0.12em', marginBottom: '10px' }}>
-              這堂課最大的進步
-            </div>
-            <div style={{ color: ivory, fontSize: '20px', lineHeight: 1.6, opacity: 0.9, maxWidth: '900px' }}>
-              {strength}
-            </div>
-          </div>
-        ) : null}
-        <div style={{ display: 'flex', gap: '40px', marginBottom: '40px' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <div style={{ color: gold, fontSize: '48px', fontWeight: 700 }}>{vocabCount}</div>
-            <div style={{ color: ivory, fontSize: '13px', opacity: 0.5 }}>單字</div>
-          </div>
-          <div style={{ color: ivory, opacity: 0.2, fontSize: '48px', alignSelf: 'center' }}>·</div>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <div style={{ color: gold, fontSize: '48px', fontWeight: 700 }}>{phraseCount}</div>
-            <div style={{ color: ivory, fontSize: '13px', opacity: 0.5 }}>片語</div>
+          <div style={{ ...flex, color: ivory, fontSize: '18px', lineHeight: 1.6, opacity: 0.9, maxWidth: '900px' }}>
+            {strength}
           </div>
         </div>
-        <div style={{ color: ivory, fontSize: '13px', opacity: 0.3 }}>
+        <div style={{ ...flex, flexDirection: 'row', gap: '40px', marginBottom: '40px' }}>
+          <div style={{ ...flex, flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ ...flex, color: gold, fontSize: '48px', fontWeight: 700 }}>{String(vocabCount)}</div>
+            <div style={{ ...flex, color: ivory, fontSize: '13px', opacity: 0.5 }}>單字</div>
+          </div>
+          <div style={{ ...flex, color: ivory, opacity: 0.2, fontSize: '48px', alignSelf: 'center' }}>·</div>
+          <div style={{ ...flex, flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ ...flex, color: gold, fontSize: '48px', fontWeight: 700 }}>{String(phraseCount)}</div>
+            <div style={{ ...flex, color: ivory, fontSize: '13px', opacity: 0.5 }}>片語</div>
+          </div>
+        </div>
+        <div style={{ ...flex, color: ivory, fontSize: '13px', opacity: 0.3 }}>
           app.bridgewayenglish.net
         </div>
       </div>,
@@ -135,6 +120,6 @@ export async function GET(
     )
   } catch (err) {
     console.error('OG image error:', err)
-    return new Response('Error generating image', { status: 500 })
+    return new Response('Error: ' + String(err), { status: 500 })
   }
 }
