@@ -134,7 +134,10 @@ export default async function ReportPage({
     }
   }
 
-    const vm: ReportVM = {
+  const lessonRel = one(report.lesson)
+  const teacherRel = one(lessonRel?.teacher)
+
+  const vm: ReportVM = {
     lessonId: report.lesson_id,
     reportId: report.id,
     studentName: student.en_name ?? student.zh_name ?? '',
