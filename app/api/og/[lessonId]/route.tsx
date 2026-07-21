@@ -61,11 +61,21 @@ export async function GET(
         .eq('is_active', true)
       const completedCount = cc ?? 0
 
-      const { count: tv } = await admin
-        .from('saved_vocabulary')
-        .select('id', { count: 'exact', head: true })
-        .eq('student_id', (lesson as any)?.student_id)
-      const totalVocab = tv ?? 0
+      // 累計學習詞彙：撈所有報告的 vocabulary + phrases 總數
+      const { data: allReports } = await admin
+        .from('lesson_reports')
+        .select('vocabulary, phrases')
+        .in('lesson_id', (await admin
+          .from('lessons')
+          .select('id')
+          .eq('student_id', (lesson as any)?.student_id)
+          .eq('status', 'completed')
+          .eq('is_active', true)
+          .then(r => (r.data ?? []).map((l: any) => l.id))
+        ))
+      const totalVocab = (allReports ?? []).reduce((sum: number, r: any) => {
+        return sum + ((r.vocabulary as any[])?.length ?? 0) + ((r.phrases as any[])?.length ?? 0)
+      }, 0)
 
       const milestoneTagline = completedCount <= 5 ? 'Just getting started.'
         : completedCount <= 10 ? 'Building momentum.'
@@ -98,7 +108,7 @@ export async function GET(
               <div style={{ display:'flex', flexDirection:'column', gap:'24px' }}>
                 <div style={{ display:'flex', flexDirection:'column', gap:'6px' }}>
                   <div style={{ display:'flex', fontSize:'80px', fontWeight:800, color:navy, lineHeight:1 }}>{String(totalVocab)}</div>
-                  <div style={{ display:'flex', fontSize:'15px', color:navy, opacity:0.42 }}>個詞彙收藏</div>
+                  <div style={{ display:'flex', fontSize:'15px', color:navy, opacity:0.42 }}>累計學習詞彙</div>
                 </div>
                 <div style={{ display:'flex', width:'100%', height:'1px', background:dim }} />
                 <div style={{ display:'flex', flexDirection:'column', gap:'6px' }}>
