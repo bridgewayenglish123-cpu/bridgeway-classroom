@@ -8,10 +8,10 @@ import { ParentSummaryCard } from './cards/ParentSummaryCard'
 import { VocabCard } from './cards/VocabCard'
 import { ErrorCard } from './cards/ErrorCard'
 import { ReflectionCard } from './cards/ReflectionCard'
-import { ShareCard } from './cards/ShareCard'
 import { TeacherNoteCard } from './cards/TeacherNoteCard'
 import { ComparisonCard } from './cards/ComparisonCard'
 import { StrengthCard } from './cards/StrengthCard'
+import { ShareCard } from './cards/ShareCard'
 
 export function ReportClient({ report, initialSaved }: {
   report: ReportVM
@@ -23,8 +23,13 @@ export function ReportClient({ report, initialSaved }: {
   const studentName = report.studentName
   const title = lang === 'zh' ? `${studentName}，你好！` : `Hi, ${studentName}!`
   const subtitle = lang === 'zh'
-    ? `${report.lessonDate} 的課堂學習報告`
-    : `Lesson Report · ${report.lessonDate}`
+    ? `${report.dateLabel} 的課堂學習報告`
+    : `Lesson Report · ${report.dateLabel}`
+
+  const reflectionZh = report.reflectionZh
+  const reflectionEn = report.reflectionEn
+  const comparison_zh = report.comparison?.summary_zh ?? null
+  const comparison_en = report.comparison?.summary_en ?? null
 
   return (
     <div className="min-h-screen" style={{ background: '#F7F4EE' }}>
@@ -53,10 +58,10 @@ export function ReportClient({ report, initialSaved }: {
           <p className="mt-2 text-[14px] text-ivory opacity-50">{subtitle}</p>
 
           {/* 統計 */}
-          <div className="mt-6 flex gap-4 flex-wrap">
+          <div className="mt-6 flex gap-6 flex-wrap">
             {[
-              { n: report.vocabCount, label: lang === 'zh' ? '單字' : 'Words' },
-              { n: report.phraseCount, label: lang === 'zh' ? '片語' : 'Phrases' },
+              { n: report.vocabulary.length, label: lang === 'zh' ? '單字' : 'Words' },
+              { n: report.phrases.length, label: lang === 'zh' ? '片語' : 'Phrases' },
               { n: report.completedCount, label: lang === 'zh' ? '累計堂數' : 'Lessons' },
             ].map(s => (
               <div key={s.label} className="text-center">
@@ -71,157 +76,84 @@ export function ReportClient({ report, initialSaved }: {
       {/* 內容 */}
       <div className="mx-auto max-w-2xl px-4 py-6 sm:px-8 sm:py-8 space-y-4">
 
-        {/* ===== YOUNG LEARNER 版面 ===== */}
+        {/* ===== YOUNG LEARNER ===== */}
         {lt === 'Young Learner' && (<>
-          {/* Hidden Gem — 必要且最顯眼 */}
-          {report.hiddenGem && (
-            <HiddenGemCard lang={lang} gem={report.hiddenGem} />
-          )}
-
-          {/* 老師留言 */}
-          {report.teacherNote && (
-            <TeacherNoteCard lang={lang} note={report.teacherNote} />
-          )}
-
-          {/* 詞彙 — 只顯示單字，不顯示定義，大字體 */}
+          {report.hiddenGem && <HiddenGemCard lang={lang} gem={report.hiddenGem} />}
+          {report.teacherNote && <TeacherNoteCard lang={lang} note={report.teacherNote} />}
           {report.vocabulary.length > 0 && (
-            <VocabCard
-              lang={lang} kind="word"
-              items={report.vocabulary}
-              reportId={report.id}
-              initialSaved={initialSaved}
-              largeFont
-            />
+            <VocabCard lang={lang} kind="word" items={report.vocabulary}
+              reportId={report.reportId} initialSaved={initialSaved} largeFont />
           )}
-
-          {/* 簡單寫作練習 */}
-          {report.reflectionQuestion && (
+          {(reflectionZh || reflectionEn) && (
             <ReflectionCard
-              lang={lang}
-              question={report.reflectionQuestion}
-              lessonReportId={report.id}
-              existingResponse={report.reflectionResponse ?? null}
-              existingFeedback={report.reflectionFeedback ?? null}
-              simple
+              lang={lang} zh={reflectionZh} en={reflectionEn}
+              reportId={report.reportId}
+              initialResponse={report.reflectionFeedback ? '' : null}
+              initialFeedback={report.reflectionFeedback}
+              studentAge={report.studentAge}
             />
           )}
-
-          {/* Next Challenge — 簡單版 */}
-          {report.nextChallenge && (
-            <NextChallengeCard lang={lang} challenge={report.nextChallenge} />
-          )}
-
-          {/* 分享 */}
+          {report.nextChallenge && <NextChallengeCard lang={lang} challenge={report.nextChallenge} />}
           <ShareCard lang={lang} report={report} />
-
-          {/* 家長摘要 — 最底部 */}
-          {report.parentSummary && (
-            <ParentSummaryCard summary={report.parentSummary} />
-          )}
+          {report.parentSummary && <ParentSummaryCard summary={report.parentSummary} />}
         </>)}
 
-        {/* ===== JUNIOR 版面 ===== */}
+        {/* ===== JUNIOR ===== */}
         {lt === 'Junior' && (<>
-          {/* Hidden Gem — 酷感，放最前 */}
-          {report.hiddenGem && (
-            <HiddenGemCard lang={lang} gem={report.hiddenGem} cool />
-          )}
-
-          {/* 老師留言 */}
-          {report.teacherNote && (
-            <TeacherNoteCard lang={lang} note={report.teacherNote} />
-          )}
-
-          {/* 詞彙 + 片語 */}
+          {report.hiddenGem && <HiddenGemCard lang={lang} gem={report.hiddenGem} cool />}
+          {report.teacherNote && <TeacherNoteCard lang={lang} note={report.teacherNote} />}
           {report.vocabulary.length > 0 && (
-            <VocabCard lang={lang} kind="word" items={report.vocabulary} reportId={report.id} initialSaved={initialSaved} />
+            <VocabCard lang={lang} kind="word" items={report.vocabulary}
+              reportId={report.reportId} initialSaved={initialSaved} />
           )}
           {report.phrases.length > 0 && (
-            <VocabCard lang={lang} kind="phrase" items={report.phrases} reportId={report.id} initialSaved={initialSaved} />
+            <VocabCard lang={lang} kind="phrase" items={report.phrases}
+              reportId={report.reportId} initialSaved={initialSaved} />
           )}
-
-          {/* 強項 */}
-          {report.strengths.length > 0 && (
-            <StrengthCard lang={lang} strengths={report.strengths} />
-          )}
-
-          {/* 錯誤 — 最多2個，用「升級挑戰」標題 */}
+          {report.strengths.length > 0 && <StrengthCard lang={lang} strengths={report.strengths} />}
           {report.errors.length > 0 && (
             <ErrorCard lang={lang} errors={report.errors.slice(0, 2)} juniorMode />
           )}
-
-          {/* 寫作練習 */}
-          {report.reflectionQuestion && (
+          {(reflectionZh || reflectionEn) && (
             <ReflectionCard
-              lang={lang}
-              question={report.reflectionQuestion}
-              lessonReportId={report.id}
-              existingResponse={report.reflectionResponse ?? null}
-              existingFeedback={report.reflectionFeedback ?? null}
+              lang={lang} zh={reflectionZh} en={reflectionEn}
+              reportId={report.reportId}
+              initialResponse={report.reflectionFeedback ? '' : null}
+              initialFeedback={report.reflectionFeedback}
+              studentAge={report.studentAge}
             />
           )}
-
-          {/* Next Challenge */}
-          {report.nextChallenge && (
-            <NextChallengeCard lang={lang} challenge={report.nextChallenge} />
-          )}
-
-          {/* 分享 */}
+          {report.nextChallenge && <NextChallengeCard lang={lang} challenge={report.nextChallenge} />}
           <ShareCard lang={lang} report={report} />
         </>)}
 
-        {/* ===== ADULT 版面 ===== */}
+        {/* ===== ADULT ===== */}
         {lt === 'Adult' && (<>
-          {/* Hidden Gem */}
-          {report.hiddenGem && (
-            <HiddenGemCard lang={lang} gem={report.hiddenGem} />
+          {report.hiddenGem && <HiddenGemCard lang={lang} gem={report.hiddenGem} />}
+          {report.teacherNote && <TeacherNoteCard lang={lang} note={report.teacherNote} />}
+          {(comparison_zh || comparison_en) && (
+            <ComparisonCard lang={lang} zh={comparison_zh} en={comparison_en} />
           )}
-
-          {/* 老師留言 */}
-          {report.teacherNote && (
-            <TeacherNoteCard lang={lang} note={report.teacherNote} />
-          )}
-
-          {/* 比較上堂課 */}
-          {(report.comparison_zh || report.comparison_en) && (
-            <ComparisonCard lang={lang} zh={report.comparison_zh} en={report.comparison_en} />
-          )}
-
-          {/* 強項 */}
-          {report.strengths.length > 0 && (
-            <StrengthCard lang={lang} strengths={report.strengths} />
-          )}
-
-          {/* 錯誤分析 — 完整 */}
-          {report.errors.length > 0 && (
-            <ErrorCard lang={lang} errors={report.errors} />
-          )}
-
-          {/* 詞彙 + 片語 */}
+          {report.strengths.length > 0 && <StrengthCard lang={lang} strengths={report.strengths} />}
+          {report.errors.length > 0 && <ErrorCard lang={lang} errors={report.errors} />}
           {report.vocabulary.length > 0 && (
-            <VocabCard lang={lang} kind="word" items={report.vocabulary} reportId={report.id} initialSaved={initialSaved} />
+            <VocabCard lang={lang} kind="word" items={report.vocabulary}
+              reportId={report.reportId} initialSaved={initialSaved} />
           )}
           {report.phrases.length > 0 && (
-            <VocabCard lang={lang} kind="phrase" items={report.phrases} reportId={report.id} initialSaved={initialSaved} />
+            <VocabCard lang={lang} kind="phrase" items={report.phrases}
+              reportId={report.reportId} initialSaved={initialSaved} />
           )}
-
-          {/* 寫作練習 */}
-          {report.reflectionQuestion && (
+          {(reflectionZh || reflectionEn) && (
             <ReflectionCard
-              lang={lang}
-              question={report.reflectionQuestion}
-              lessonReportId={report.id}
-              existingResponse={report.reflectionResponse ?? null}
-              existingFeedback={report.reflectionFeedback ?? null}
+              lang={lang} zh={reflectionZh} en={reflectionEn}
+              reportId={report.reportId}
+              initialResponse={report.reflectionFeedback ? '' : null}
+              initialFeedback={report.reflectionFeedback}
+              studentAge={report.studentAge}
             />
           )}
-
-          {/* Next Challenge */}
-          {report.nextChallenge && (
-            <NextChallengeCard lang={lang} challenge={report.nextChallenge} />
-          )}
-
-          {/* 分享 */}
+          {report.nextChallenge && <NextChallengeCard lang={lang} challenge={report.nextChallenge} />}
           <ShareCard lang={lang} report={report} />
         </>)}
 
