@@ -43,14 +43,19 @@ export function ShareCard({
 
   const shareText = template === 'lesson' ? shareTextLesson : shareTextMilestone
 
-  const handleLine = () =>
-    window.open('https://line.me/R/msg/text/?' + encodeURIComponent(shareText), '_blank')
+  const handleLine = () => {
+    const imageUrl = ogUrl(template)
+    const text = template === 'lesson'
+      ? studentName + ' 今天在 Bridgeway Classroom 學了 ' + vocabCount + ' 個單字和 ' + phraseCount + ' 個片語！\n\n' + imageUrl
+      : studentName + ' 在 Bridgeway Classroom 已完成 ' + completedCount + ' 堂英文課！\n\n' + imageUrl
+    window.open('https://line.me/R/msg/text/?' + encodeURIComponent(text), '_blank')
+  }
 
   const handleFacebook = () =>
-    window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(reportUrl), '_blank')
+    window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(ogUrl(template)), '_blank')
 
   const handleCopyLink = async () => {
-    await navigator.clipboard.writeText(reportUrl)
+    await navigator.clipboard.writeText(ogUrl(template))
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
@@ -69,7 +74,7 @@ export function ShareCard({
     const nav = navigator as any
     if (nav.share) {
       try {
-        await nav.share({ title: 'Bridgeway Classroom', text: shareText, url: reportUrl })
+        await nav.share({ title: 'Bridgeway Classroom', text: shareText, url: ogUrl(template) })
       } catch {}
     }
   }
@@ -163,7 +168,7 @@ export function ShareCard({
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
               </svg>
-              {copied ? '已複製！' : '複製連結'}
+              {copied ? '已複製！' : '複製圖片連結'}
             </button>
           </div>
 
