@@ -9,6 +9,7 @@ import { VocabCard } from './cards/VocabCard'
 import { ErrorCard } from './cards/ErrorCard'
 import { ReflectionCard } from './cards/ReflectionCard'
 import { TeacherNoteCard } from './cards/TeacherNoteCard'
+import { ShareCard } from './ShareCard'
 import { ComparisonCard } from './cards/ComparisonCard'
 import { StrengthCard } from './cards/StrengthCard'
 
@@ -92,6 +93,17 @@ export function ReportClient({ report, initialSaved }: {
             />
           )}
           {report.nextChallenge && <NextChallengeCard lang={lang} challenge={report.nextChallenge} />}
+          <ShareCard
+            studentName={report.studentName}
+            dateLabel={report.dateLabel}
+            strengthZh={report.strengths[0]?.zh ?? null}
+            vocabCount={report.vocabulary.length}
+            phraseCount={report.phrases.length}
+            lessonId={report.lessonId}
+            completedCount={report.completedCount}
+            streakWeeks={report.streakWeeks}
+            totalVocabCount={report.totalVocabCount}
+          />
           {report.parentSummary && <ParentSummaryCard summary={report.parentSummary} />}
         </>)}
 
@@ -121,6 +133,17 @@ export function ReportClient({ report, initialSaved }: {
             />
           )}
           {report.nextChallenge && <NextChallengeCard lang={lang} challenge={report.nextChallenge} />}
+          <ShareCard
+            studentName={report.studentName}
+            dateLabel={report.dateLabel}
+            strengthZh={report.strengths[0]?.zh ?? null}
+            vocabCount={report.vocabulary.length}
+            phraseCount={report.phrases.length}
+            lessonId={report.lessonId}
+            completedCount={report.completedCount}
+            streakWeeks={report.streakWeeks}
+            totalVocabCount={report.totalVocabCount}
+          />
         </>)}
 
         {/* ===== ADULT ===== */}
@@ -148,6 +171,17 @@ export function ReportClient({ report, initialSaved }: {
             />
           )}
           {report.nextChallenge && <NextChallengeCard lang={lang} challenge={report.nextChallenge} />}
+          <ShareCard
+            studentName={report.studentName}
+            dateLabel={report.dateLabel}
+            strengthZh={report.strengths[0]?.zh ?? null}
+            vocabCount={report.vocabulary.length}
+            phraseCount={report.phrases.length}
+            lessonId={report.lessonId}
+            completedCount={report.completedCount}
+            streakWeeks={report.streakWeeks}
+            totalVocabCount={report.totalVocabCount}
+          />
         </>)}
 
       </div>
