@@ -74,4 +74,5 @@ export type ReportVM = {
   streakWeeks: number
   totalVocabCount: number
   hiddenGem: string | null
+  nextChallenge: string | null
 }

@@ -88,7 +88,7 @@ export default async function ReportPage({
   // 撈 hidden_gem
   const { data: reportExtra } = await (supabase as any)
     .from('lesson_reports')
-    .select('hidden_gem')
+    .select('hidden_gem, next_challenge')
     .eq('id', report.id)
     .single()
 
@@ -184,6 +184,7 @@ export default async function ReportPage({
     streakWeeks,
     totalVocabCount: totalVocabCount ?? 0,
     hiddenGem: reportExtra?.hidden_gem ?? null,
+    nextChallenge: reportExtra?.next_challenge ?? null,
   }
 
   return (
