@@ -6,7 +6,7 @@ import { StarIcon } from './StarIcon'
 import { toggleVocabulary } from '../actions'
 
 export function VocabCard({
-  lang, kind, items, reportId, initialSaved,
+  lang, kind, items, reportId, initialSaved, largeFont = false,
 }: {
   lang: Lang
   kind: 'word' | 'phrase'
@@ -14,7 +14,6 @@ export function VocabCard({
   reportId: string
   initialSaved: string[]
   largeFont?: boolean
-  largeFont = false,
 }) {
   const [saved, setSaved] = useState<Set<string>>(() => new Set(initialSaved))
   const [expanded, setExpanded] = useState<Set<string>>(() => new Set())
