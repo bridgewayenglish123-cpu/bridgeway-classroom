@@ -9,6 +9,7 @@ import { VocabCard } from './cards/VocabCard'
 import { StrengthCard } from './cards/StrengthCard'
 import { ErrorCard } from './cards/ErrorCard'
 import { ComparisonCard } from './cards/ComparisonCard'
+import { HiddenGemCard } from './cards/HiddenGemCard'
 import { ReflectionCard } from './cards/ReflectionCard'
 import { ShareCard } from './ShareCard'
 

@@ -71,7 +71,7 @@ export default async function ReportPage({
   const { data: report } = await supabase
     .from('lesson_reports')
     .select(
-      `id, lesson_id, teacher_note, milestone,
+      `id, lesson_id, teacher_note, milestone, hidden_gem,
        analysis_zh, analysis_en, vocabulary, phrases, strengths, errors, comparison,
        lesson:lesson_id ( date, time, duration, teacher:teachers!teacher_id ( teacher_name ) )`,
     )
@@ -176,6 +176,7 @@ export default async function ReportPage({
     completedCount: completedCount ?? 0,
     streakWeeks,
     totalVocabCount: totalVocabCount ?? 0,
+    hiddenGem: (report as any).hidden_gem ?? null,
   }
 
   return (

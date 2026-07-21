@@ -15,6 +15,7 @@ export function VocabCard({
   initialSaved: string[]
 }) {
   const [saved, setSaved] = useState<Set<string>>(() => new Set(initialSaved))
+  const [expanded, setExpanded] = useState<Set<string>>(() => new Set())
   const [, startTransition] = useTransition()
   const [confirmTerm, setConfirmTerm] = useState<{
     term: string; defZh: string | null; defEn: string | null
@@ -51,19 +52,17 @@ export function VocabCard({
 
   const handleClick = (term: string, defZh: string | null, defEn: string | null) => {
     const isSaved = saved.has(term)
-    if (isSaved) {
-      // 取消收藏 → 二次確認
-      setConfirmTerm({ term, defZh, defEn })
-    } else {
-      // 新增收藏 → 直接執行
-      doToggle(term, defZh, defEn, false)
-    }
+    if (isSaved) setConfirmTerm({ term, defZh, defEn })
+    else doToggle(term, defZh, defEn, false)
   }
 
-  const handleConfirmRemove = () => {
-    if (!confirmTerm) return
-    doToggle(confirmTerm.term, confirmTerm.defZh, confirmTerm.defEn, true)
-    setConfirmTerm(null)
+  const toggleExpand = (term: string) => {
+    setExpanded(prev => {
+      const next = new Set(prev)
+      if (next.has(term)) next.delete(term)
+      else next.add(term)
+      return next
+    })
   }
 
   return (
@@ -83,30 +82,75 @@ export function VocabCard({
             const defEn = kind === 'word'
               ? (it as ReportVocabulary).definition_en ?? null
               : (it as ReportPhrase).usage_en ?? null
+            const exampleEn = (it as any).example_en ?? null
+            const exampleZh = (it as any).example_zh ?? null
             const def = lang === 'zh' ? defZh : defEn
             const isSaved = saved.has(term)
+            const isExpanded = expanded.has(term)
+            const hasExample = exampleEn || exampleZh
+
             return (
-              <li key={`${term}-${i}`} className="flex items-start gap-4 py-4 first:pt-0 last:pb-0">
-                <div className="min-w-0 flex-1">
-                  <div className="text-[16px] font-bold text-navy tracking-[-0.01em]">{term}</div>
-                  {def && (
-                    <div className="mt-1.5 text-[14px] leading-[1.75] text-ink-mid">{def}</div>
-                  )}
+              <li key={`${term}-${i}`} className="py-4 first:pt-0 last:pb-0">
+                <div className="flex items-start gap-4">
+                  <div className="min-w-0 flex-1">
+                    {/* 單字 + 點擊展開 */}
+                    <div className="flex items-center gap-2">
+                      <div className="text-[16px] font-bold text-navy tracking-[-0.01em]">{term}</div>
+                      {hasExample && (
+                        <button
+                          onClick={() => toggleExpand(term)}
+                          className="text-[11px] px-2 py-0.5 rounded-full transition"
+                          style={{
+                            background: isExpanded ? '#1A2236' : '#F0EDE6',
+                            color: isExpanded ? '#F7F4EE' : '#6B7B8E',
+                          }}>
+                          {isExpanded
+                            ? (lang === 'zh' ? '收起' : 'less')
+                            : (lang === 'zh' ? '例句' : 'example')}
+                        </button>
+                      )}
+                    </div>
+
+                    {/* 定義 */}
+                    {def && (
+                      <div className="mt-1.5 text-[14px] leading-[1.75] text-ink-mid">{def}</div>
+                    )}
+
+                    {/* 展開的例句 */}
+                    {isExpanded && (exampleEn || exampleZh) && (
+                      <div className="mt-3 rounded-xl px-4 py-3 space-y-1"
+                        style={{ background: '#F0EDE6' }}>
+                        {exampleEn && (
+                          <div className="text-[13px] font-medium leading-relaxed" style={{ color: '#1A2236' }}>
+                            {exampleEn}
+                          </div>
+                        )}
+                        {exampleZh && (
+                          <div className="text-[12px] leading-relaxed" style={{ color: '#6B7B8E' }}>
+                            {exampleZh}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 星號收藏 */}
+                  <button
+                    type="button"
+                    onClick={() => handleClick(term, defZh, defEn)}
+                    aria-label={isSaved ? '取消收藏' : '收藏'}
+                    aria-pressed={isSaved}
+                    className="mt-0.5 flex-shrink-0 rounded p-0.5 transition-transform active:scale-90">
+                    <StarIcon saved={isSaved} />
+                  </button>
                 </div>
-                <button type="button"
-                  onClick={() => handleClick(term, defZh, defEn)}
-                  aria-label={isSaved ? '取消收藏' : '收藏'}
-                  aria-pressed={isSaved}
-                  className="mt-0.5 flex-shrink-0 rounded p-0.5 transition-transform active:scale-90">
-                  <StarIcon saved={isSaved} />
-                </button>
               </li>
             )
           })}
         </ul>
       </section>
 
-      {/* 取消收藏二次確認 Modal */}
+      {/* 取消收藏二次確認 */}
       {confirmTerm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
           style={{ background: 'rgba(26,34,54,0.55)' }}
@@ -125,7 +169,7 @@ export function VocabCard({
                 className="px-4 py-2 rounded-field text-[13px] font-medium text-ink-mid border border-ivory-dim transition hover:border-navy">
                 {lang === 'zh' ? '保留' : 'Keep'}
               </button>
-              <button onClick={handleConfirmRemove}
+              <button onClick={() => { doToggle(confirmTerm.term, confirmTerm.defZh, confirmTerm.defEn, true); setConfirmTerm(null) }}
                 className="px-5 py-2 rounded-field bg-navy text-[13px] font-semibold text-ivory transition hover:opacity-90">
                 {lang === 'zh' ? '確認移除' : 'Remove'}
               </button>
