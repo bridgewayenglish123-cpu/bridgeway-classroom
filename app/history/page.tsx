@@ -62,6 +62,7 @@ export default async function HistoryPage() {
       chips: vocab.map(v => v.word).filter(Boolean).slice(0, 4),
       milestone: report?.milestone ?? null,
       hasReport: Boolean(report),
+      reportCreatedAt: (report as any)?.created_at ?? null,
     }
   })
 
