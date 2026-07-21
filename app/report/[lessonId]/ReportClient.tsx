@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import type { Lang, ReportVM } from '@/lib/types/report'
+import { ReportHeader } from '@/components/layout/Nav'
 import { HiddenGemCard } from './cards/HiddenGemCard'
 import { NextChallengeCard } from './cards/NextChallengeCard'
 import { ParentSummaryCard } from './cards/ParentSummaryCard'
@@ -62,21 +63,7 @@ export function ReportClient({ report, initialSaved }: {
   return (
     <div className="min-h-screen" style={{ background: ivory }}>
 
-      {/* ── Header ── ivory 底，輕量 */}
-      <header className="sticky top-0 z-50 border-b"
-        style={{ background: ivory, borderColor: line }}>
-        <div className="mx-auto max-w-[1100px] flex h-[52px] items-center justify-between px-4 sm:px-8">
-          <div className="font-serif text-[17px] font-medium" style={{ color: navy }}>
-            Bridgeway <span style={{ color: gold }}>Classroom</span>
-          </div>
-          <button
-            onClick={() => setLang(l => l === 'zh' ? 'en' : 'zh')}
-            className="rounded-full px-3 py-1 text-[12px] font-medium border transition hover:opacity-80"
-            style={{ borderColor: line, color: muted }}>
-            {lang === 'zh' ? 'EN' : '中文'}
-          </button>
-        </div>
-      </header>
+      <ReportHeader lang={lang} onToggleLang={() => setLang(l => l === 'zh' ? 'en' : 'zh')} />
 
       {/* ── Hero ── 緊湊，不浪費空間 */}
       <div className="border-b" style={{ background: ivory, borderColor: line }}>
