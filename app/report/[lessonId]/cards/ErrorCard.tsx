@@ -41,7 +41,7 @@ export function ErrorCard({ lang, errors }: { lang: Lang; errors: ReportError[] 
               <div className="p-4 sm:p-5">
                 <div className="text-[13px] font-semibold mb-2" style={{ color: '#1A2236' }}>
                   {pattern}
-                  {err.count > 1 && (
+                  {(err.count ?? 0) > 1 && (
                     <span className="ml-2 text-[11px] font-normal px-2 py-0.5 rounded-full"
                       style={{ background: '#FEF3C7', color: '#92400E' }}>
                       ×{err.count}

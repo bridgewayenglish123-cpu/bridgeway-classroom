@@ -84,7 +84,7 @@ export function ReportClient({
             />
             {report.teacherNote ? <TeacherNoteCard lang={lang} note={report.teacherNote} /> : null}
             <StrengthCard lang={lang} items={report.strengths} />
-            <ErrorCard lang={lang} items={report.errors} />
+            <ErrorCard lang={lang} errors={report.errors} />
             <ComparisonCard lang={lang} comparison={report.comparison} />
             <ReflectionCard
               lang={lang}
