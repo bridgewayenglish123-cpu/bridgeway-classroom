@@ -59,7 +59,7 @@ export default async function ReportPage({
 
   const { data: student } = await supabase
     .from('students')
-    .select('id, en_name, zh_name, age, learner_type, level')
+    .select('id, en_name, zh_name, age')
     .eq('auth_user_id', user.id)
     .maybeSingle()
 
@@ -86,6 +86,12 @@ export default async function ReportPage({
   }
 
   // 撈 hidden_gem
+  const { data: studentExtra } = await (supabase as any)
+    .from('students')
+    .select('learner_type, level')
+    .eq('auth_user_id', user.id)
+    .maybeSingle()
+
   const { data: reportExtra } = await (supabase as any)
     .from('lesson_reports')
     .select('hidden_gem, next_challenge, parent_summary')
@@ -186,8 +192,8 @@ export default async function ReportPage({
     hiddenGem: reportExtra?.hidden_gem ?? null,
     nextChallenge: reportExtra?.next_challenge ?? null,
     parentSummary: reportExtra?.parent_summary ?? null,
-    learnerType: (student as any).learner_type ?? 'Adult',
-    level: (student as any).level ?? 'Elementary',
+    learnerType: studentExtra?.learner_type ?? 'Adult',
+    level: studentExtra?.level ?? 'Elementary',
   }
 
   return (

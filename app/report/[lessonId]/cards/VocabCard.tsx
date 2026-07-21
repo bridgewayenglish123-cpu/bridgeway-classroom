@@ -14,6 +14,7 @@ export function VocabCard({
   reportId: string
   initialSaved: string[]
   largeFont?: boolean
+  largeFont = false,
 }) {
   const [saved, setSaved] = useState<Set<string>>(() => new Set(initialSaved))
   const [expanded, setExpanded] = useState<Set<string>>(() => new Set())
