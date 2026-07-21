@@ -11,7 +11,6 @@ import { ReflectionCard } from './cards/ReflectionCard'
 import { TeacherNoteCard } from './cards/TeacherNoteCard'
 import { ComparisonCard } from './cards/ComparisonCard'
 import { StrengthCard } from './cards/StrengthCard'
-import { ShareCard } from './cards/ShareCard'
 
 export function ReportClient({ report, initialSaved }: {
   report: ReportVM
@@ -28,8 +27,7 @@ export function ReportClient({ report, initialSaved }: {
 
   const reflectionZh = report.reflectionZh
   const reflectionEn = report.reflectionEn
-  const comparison_zh = report.comparison?.summary_zh ?? null
-  const comparison_en = report.comparison?.summary_en ?? null
+
 
   return (
     <div className="min-h-screen" style={{ background: '#F7F4EE' }}>
@@ -94,7 +92,6 @@ export function ReportClient({ report, initialSaved }: {
             />
           )}
           {report.nextChallenge && <NextChallengeCard lang={lang} challenge={report.nextChallenge} />}
-          <ShareCard lang={lang} report={report} />
           {report.parentSummary && <ParentSummaryCard summary={report.parentSummary} />}
         </>)}
 
@@ -110,7 +107,7 @@ export function ReportClient({ report, initialSaved }: {
             <VocabCard lang={lang} kind="phrase" items={report.phrases}
               reportId={report.reportId} initialSaved={initialSaved} />
           )}
-          {report.strengths.length > 0 && <StrengthCard lang={lang} strengths={report.strengths} />}
+          {report.strengths.length > 0 && <StrengthCard lang={lang} items={report.strengths} />}
           {report.errors.length > 0 && (
             <ErrorCard lang={lang} errors={report.errors.slice(0, 2)} juniorMode />
           )}
@@ -124,17 +121,14 @@ export function ReportClient({ report, initialSaved }: {
             />
           )}
           {report.nextChallenge && <NextChallengeCard lang={lang} challenge={report.nextChallenge} />}
-          <ShareCard lang={lang} report={report} />
         </>)}
 
         {/* ===== ADULT ===== */}
         {lt === 'Adult' && (<>
           {report.hiddenGem && <HiddenGemCard lang={lang} gem={report.hiddenGem} />}
           {report.teacherNote && <TeacherNoteCard lang={lang} note={report.teacherNote} />}
-          {(comparison_zh || comparison_en) && (
-            <ComparisonCard lang={lang} zh={comparison_zh} en={comparison_en} />
-          )}
-          {report.strengths.length > 0 && <StrengthCard lang={lang} strengths={report.strengths} />}
+          {report.comparison && <ComparisonCard lang={lang} comparison={report.comparison} />}
+          {report.strengths.length > 0 && <StrengthCard lang={lang} items={report.strengths} />}
           {report.errors.length > 0 && <ErrorCard lang={lang} errors={report.errors} />}
           {report.vocabulary.length > 0 && (
             <VocabCard lang={lang} kind="word" items={report.vocabulary}
@@ -154,7 +148,6 @@ export function ReportClient({ report, initialSaved }: {
             />
           )}
           {report.nextChallenge && <NextChallengeCard lang={lang} challenge={report.nextChallenge} />}
-          <ShareCard lang={lang} report={report} />
         </>)}
 
       </div>

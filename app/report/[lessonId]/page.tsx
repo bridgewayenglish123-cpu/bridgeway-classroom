@@ -199,10 +199,7 @@ export default async function ReportPage({
   return (
     <ReportClient
       report={vm}
-      savedWords={savedWords}
-      initialResponse={reflection?.response ?? null}
-      initialFeedback={reflection?.feedback ?? null}
-      studentAge={(student as any)?.age ?? null}
+      initialSaved={savedWords}
     />
   )
 }
