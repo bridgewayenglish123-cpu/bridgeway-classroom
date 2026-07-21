@@ -71,7 +71,7 @@ export default async function ReportPage({
   const { data: report } = await supabase
     .from('lesson_reports')
     .select(
-      `id, lesson_id, teacher_note, milestone, hidden_gem,
+      `id, lesson_id, teacher_note, milestone,
        analysis_zh, analysis_en, vocabulary, phrases, strengths, errors, comparison,
        lesson:lesson_id ( date, time, duration, teacher:teachers!teacher_id ( teacher_name ) )`,
     )
@@ -84,6 +84,13 @@ export default async function ReportPage({
   if (!report) {
     return <NotFound message="這堂課的報告還沒生成，或你沒有權限查看。" />
   }
+
+  // 撈 hidden_gem
+  const { data: reportExtra } = await (supabase as any)
+    .from('lesson_reports')
+    .select('hidden_gem')
+    .eq('id', report.id)
+    .single()
 
   const reflectionQuery = await (supabase as any)
     .from('reflection_responses')
@@ -176,7 +183,7 @@ export default async function ReportPage({
     completedCount: completedCount ?? 0,
     streakWeeks,
     totalVocabCount: totalVocabCount ?? 0,
-    hiddenGem: (report as any).hidden_gem ?? null,
+    hiddenGem: reportExtra?.hidden_gem ?? null,
   }
 
   return (
