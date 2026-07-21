@@ -13,6 +13,7 @@ export function VocabCard({
   items: (ReportVocabulary | ReportPhrase)[]
   reportId: string
   initialSaved: string[]
+  largeFont?: boolean
 }) {
   const [saved, setSaved] = useState<Set<string>>(() => new Set(initialSaved))
   const [expanded, setExpanded] = useState<Set<string>>(() => new Set())
@@ -95,7 +96,7 @@ export function VocabCard({
                   <div className="min-w-0 flex-1">
                     {/* 單字 + 點擊展開 */}
                     <div className="flex items-center gap-2">
-                      <div className="text-[16px] font-bold text-navy tracking-[-0.01em]">{term}</div>
+                      <div className={`font-bold text-navy tracking-[-0.01em] ${largeFont ? 'text-[22px]' : 'text-[16px]'}`}>{term}</div>
                       {hasExample && (
                         <button
                           onClick={() => toggleExpand(term)}

@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import type { Lang, ReportError } from '@/lib/types/report'
 
-export function ErrorCard({ lang, errors }: { lang: Lang; errors: ReportError[] }) {
+export function ErrorCard({ lang, errors, juniorMode }: { lang: Lang; errors: ReportError[]; juniorMode?: boolean }) {
   const [expanded, setExpanded] = useState<Set<number>>(new Set())
 
   if (!errors || errors.length === 0) return null
@@ -16,7 +16,9 @@ export function ErrorCard({ lang, errors }: { lang: Lang; errors: ReportError[] 
     })
   }
 
-  const label = lang === 'zh' ? '值得注意的地方' : 'Points to Note'
+  const label = juniorMode
+    ? (lang === 'zh' ? '🎯 升級挑戰' : '🎯 Level Up')
+    : (lang === 'zh' ? '值得注意的地方' : 'Points to Note')
   const thinkLabel = lang === 'zh' ? '你覺得哪裡怪怪的？點擊看答案 →' : 'Spot the error? Tap to reveal →'
   const answerLabel = lang === 'zh' ? '正確版本' : 'Correction'
   const tipLabel = lang === 'zh' ? '小提示' : 'Tip'

@@ -1,133 +1,231 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
 import type { Lang, ReportVM } from '@/lib/types/report'
-import { TeacherNoteCard } from './cards/TeacherNoteCard'
-import { AnalysisCard } from './cards/AnalysisCard'
-import { VocabCard } from './cards/VocabCard'
-import { StrengthCard } from './cards/StrengthCard'
-import { ErrorCard } from './cards/ErrorCard'
-import { ComparisonCard } from './cards/ComparisonCard'
-import { NextChallengeCard } from './cards/NextChallengeCard'
 import { HiddenGemCard } from './cards/HiddenGemCard'
+import { NextChallengeCard } from './cards/NextChallengeCard'
+import { ParentSummaryCard } from './cards/ParentSummaryCard'
+import { VocabCard } from './cards/VocabCard'
+import { ErrorCard } from './cards/ErrorCard'
 import { ReflectionCard } from './cards/ReflectionCard'
-import { ShareCard } from './ShareCard'
+import { ShareCard } from './cards/ShareCard'
+import { TeacherNoteCard } from './cards/TeacherNoteCard'
+import { ComparisonCard } from './cards/ComparisonCard'
+import { StrengthCard } from './cards/StrengthCard'
 
-export function ReportClient({
-  report,
-  savedWords,
-  initialResponse,
-  initialFeedback,
-  studentAge,
-}: {
+export function ReportClient({ report, initialSaved }: {
   report: ReportVM
-  savedWords: string[]
-  initialResponse: string | null
-  initialFeedback: string | null
-  studentAge?: number | null
+  initialSaved: string[]
 }) {
   const [lang, setLang] = useState<Lang>('zh')
+  const lt = report.learnerType ?? 'Adult'
+
+  const studentName = report.studentName
+  const title = lang === 'zh' ? `${studentName}，你好！` : `Hi, ${studentName}!`
+  const subtitle = lang === 'zh'
+    ? `${report.lessonDate} 的課堂學習報告`
+    : `Lesson Report · ${report.lessonDate}`
 
   return (
-    <div className="min-h-[100dvh] bg-ivory">
-
-      {/* ── Nav ── */}
+    <div className="min-h-screen" style={{ background: '#F7F4EE' }}>
+      {/* Header */}
       <header className="sticky top-0 z-50 flex h-[52px] items-center justify-between bg-navy px-5 sm:h-[56px] sm:px-8">
-        <Link href="/home" className="flex items-center gap-1.5 text-[13px] text-ivory/70 transition hover:text-ivory">
-          <span className="text-[16px] leading-none">←</span>
-          <span>{lang === 'zh' ? '返回首頁' : 'Home'}</span>
-        </Link>
-        <div className="flex items-center gap-1 rounded-full border border-white/15 bg-white/10 p-1">
-          {(['zh', 'en'] as Lang[]).map((l) => (
-            <button key={l} type="button" onClick={() => setLang(l)}
-              className={`rounded-full px-4 py-1.5 text-[12px] font-semibold tracking-wide transition-all ${
-                lang === l ? 'bg-gold text-navy shadow-sm' : 'text-ivory/60 hover:text-ivory'
-              }`}>
-              {l === 'zh' ? '中文' : 'EN'}
-            </button>
-          ))}
+        <div className="font-serif text-[16px] font-medium text-ivory tracking-wide">
+          Bridgeway
         </div>
+        <button
+          onClick={() => setLang(l => l === 'zh' ? 'en' : 'zh')}
+          className="rounded-full px-3 py-1 text-[12px] font-medium transition"
+          style={{ background: 'rgba(255,255,255,0.15)', color: '#F7F4EE' }}>
+          {lang === 'zh' ? 'EN' : '中文'}
+        </button>
       </header>
 
-      {/* ── Hero ── */}
+      {/* Hero */}
       <div className="bg-navy px-5 pb-10 pt-8 sm:px-8 sm:pb-12 sm:pt-10">
-        <div className="mx-auto max-w-[1100px]">
-          <div className="mb-2 text-[12px] font-medium tracking-[0.06em] text-gold/70">
-            {report.dateLabel}
-            {report.teacherName ? ` · ${report.teacherName}${lang === 'zh' ? ' 老師' : ''}` : ''}
-          </div>
-          <h1 className="font-serif text-[26px] font-medium leading-[1.3] text-ivory sm:text-[32px]">
-            {lang === 'zh' ? report.analysisZh?.headline : report.analysisEn?.headline}
+        <div className="mx-auto max-w-2xl">
+          <p className="mb-1 text-[13px] font-medium tracking-[0.08em] text-gold opacity-80 uppercase">
+            {lang === 'zh' ? '學習報告' : 'Learning Report'}
+          </p>
+          <h1 className={`font-serif font-semibold text-ivory leading-tight ${lt === 'Young Learner' ? 'text-[32px] sm:text-[38px]' : 'text-[26px] sm:text-[32px]'}`}>
+            {title}
           </h1>
-          {report.milestone && (
-            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-3.5 py-1.5">
-              <span className="text-[13px] font-medium text-gold">🏆 {report.milestone}</span>
-            </div>
-          )}
+          <p className="mt-2 text-[14px] text-ivory opacity-50">{subtitle}</p>
+
+          {/* 統計 */}
+          <div className="mt-6 flex gap-4 flex-wrap">
+            {[
+              { n: report.vocabCount, label: lang === 'zh' ? '單字' : 'Words' },
+              { n: report.phraseCount, label: lang === 'zh' ? '片語' : 'Phrases' },
+              { n: report.completedCount, label: lang === 'zh' ? '累計堂數' : 'Lessons' },
+            ].map(s => (
+              <div key={s.label} className="text-center">
+                <div className="font-serif text-[28px] font-bold text-ivory">{s.n}</div>
+                <div className="text-[11px] text-ivory opacity-50 mt-0.5">{s.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* ── 主內容 ── */}
-      <main className="mx-auto max-w-[1100px] px-5 py-8 sm:px-8 sm:py-10">
-        <div className="lg:grid lg:grid-cols-[1fr_340px] lg:gap-10 lg:items-start">
+      {/* 內容 */}
+      <div className="mx-auto max-w-2xl px-4 py-6 sm:px-8 sm:py-8 space-y-4">
 
-          {/* 左欄：分析 + 強項 + 錯誤 + 比較 + 反思 + 分享 */}
-          <div className="flex flex-col gap-5">
-            <AnalysisCard
-              lang={lang}
-              zh={report.analysisZh}
-              en={report.analysisEn}
-              dateLabel={report.dateLabel}
-              teacherName={report.teacherName}
-              hideHeader
+        {/* ===== YOUNG LEARNER 版面 ===== */}
+        {lt === 'Young Learner' && (<>
+          {/* Hidden Gem — 必要且最顯眼 */}
+          {report.hiddenGem && (
+            <HiddenGemCard lang={lang} gem={report.hiddenGem} />
+          )}
+
+          {/* 老師留言 */}
+          {report.teacherNote && (
+            <TeacherNoteCard lang={lang} note={report.teacherNote} />
+          )}
+
+          {/* 詞彙 — 只顯示單字，不顯示定義，大字體 */}
+          {report.vocabulary.length > 0 && (
+            <VocabCard
+              lang={lang} kind="word"
+              items={report.vocabulary}
+              reportId={report.id}
+              initialSaved={initialSaved}
+              largeFont
             />
-            {report.teacherNote ? <TeacherNoteCard lang={lang} note={report.teacherNote} /> : null}
-            <StrengthCard lang={lang} items={report.strengths} />
-            <ErrorCard lang={lang} errors={report.errors} />
-            <ComparisonCard lang={lang} comparison={report.comparison} />
+          )}
+
+          {/* 簡單寫作練習 */}
+          {report.reflectionQuestion && (
             <ReflectionCard
               lang={lang}
-              zh={report.reflectionZh}
-              en={report.reflectionEn}
-              reportId={report.reportId}
-              initialResponse={initialResponse}
-              initialFeedback={initialFeedback}
-              studentAge={studentAge}
+              question={report.reflectionQuestion}
+              lessonReportId={report.id}
+              existingResponse={report.reflectionResponse ?? null}
+              existingFeedback={report.reflectionFeedback ?? null}
+              simple
             />
-            <ShareCard
-              studentName={report.studentName}
-              dateLabel={report.dateLabel}
-              strengthZh={report.strengths[0]?.zh ?? null}
-              vocabCount={report.vocabulary.length}
-              phraseCount={report.phrases.length}
-              lessonId={report.lessonId}
-              completedCount={report.completedCount}
-              streakWeeks={report.streakWeeks}
-              totalVocabCount={report.totalVocabCount}
-            />
-          </div>
+          )}
 
-          {/* 右欄：單字 + 片語（桌機 sticky） */}
-          <div className="mt-5 flex flex-col gap-5 lg:mt-0">
-            <VocabCard
-              lang={lang}
-              kind="word"
-              items={report.vocabulary}
-              reportId={report.reportId}
-              initialSaved={savedWords}
-            />
-            <VocabCard
-              lang={lang}
-              kind="phrase"
-              items={report.phrases}
-              reportId={report.reportId}
-              initialSaved={savedWords}
-            />
-          </div>
+          {/* Next Challenge — 簡單版 */}
+          {report.nextChallenge && (
+            <NextChallengeCard lang={lang} challenge={report.nextChallenge} />
+          )}
 
-        </div>
-      </main>
+          {/* 分享 */}
+          <ShareCard lang={lang} report={report} />
+
+          {/* 家長摘要 — 最底部 */}
+          {report.parentSummary && (
+            <ParentSummaryCard summary={report.parentSummary} />
+          )}
+        </>)}
+
+        {/* ===== JUNIOR 版面 ===== */}
+        {lt === 'Junior' && (<>
+          {/* Hidden Gem — 酷感，放最前 */}
+          {report.hiddenGem && (
+            <HiddenGemCard lang={lang} gem={report.hiddenGem} cool />
+          )}
+
+          {/* 老師留言 */}
+          {report.teacherNote && (
+            <TeacherNoteCard lang={lang} note={report.teacherNote} />
+          )}
+
+          {/* 詞彙 + 片語 */}
+          {report.vocabulary.length > 0 && (
+            <VocabCard lang={lang} kind="word" items={report.vocabulary} reportId={report.id} initialSaved={initialSaved} />
+          )}
+          {report.phrases.length > 0 && (
+            <VocabCard lang={lang} kind="phrase" items={report.phrases} reportId={report.id} initialSaved={initialSaved} />
+          )}
+
+          {/* 強項 */}
+          {report.strengths.length > 0 && (
+            <StrengthCard lang={lang} strengths={report.strengths} />
+          )}
+
+          {/* 錯誤 — 最多2個，用「升級挑戰」標題 */}
+          {report.errors.length > 0 && (
+            <ErrorCard lang={lang} errors={report.errors.slice(0, 2)} juniorMode />
+          )}
+
+          {/* 寫作練習 */}
+          {report.reflectionQuestion && (
+            <ReflectionCard
+              lang={lang}
+              question={report.reflectionQuestion}
+              lessonReportId={report.id}
+              existingResponse={report.reflectionResponse ?? null}
+              existingFeedback={report.reflectionFeedback ?? null}
+            />
+          )}
+
+          {/* Next Challenge */}
+          {report.nextChallenge && (
+            <NextChallengeCard lang={lang} challenge={report.nextChallenge} />
+          )}
+
+          {/* 分享 */}
+          <ShareCard lang={lang} report={report} />
+        </>)}
+
+        {/* ===== ADULT 版面 ===== */}
+        {lt === 'Adult' && (<>
+          {/* Hidden Gem */}
+          {report.hiddenGem && (
+            <HiddenGemCard lang={lang} gem={report.hiddenGem} />
+          )}
+
+          {/* 老師留言 */}
+          {report.teacherNote && (
+            <TeacherNoteCard lang={lang} note={report.teacherNote} />
+          )}
+
+          {/* 比較上堂課 */}
+          {(report.comparison_zh || report.comparison_en) && (
+            <ComparisonCard lang={lang} zh={report.comparison_zh} en={report.comparison_en} />
+          )}
+
+          {/* 強項 */}
+          {report.strengths.length > 0 && (
+            <StrengthCard lang={lang} strengths={report.strengths} />
+          )}
+
+          {/* 錯誤分析 — 完整 */}
+          {report.errors.length > 0 && (
+            <ErrorCard lang={lang} errors={report.errors} />
+          )}
+
+          {/* 詞彙 + 片語 */}
+          {report.vocabulary.length > 0 && (
+            <VocabCard lang={lang} kind="word" items={report.vocabulary} reportId={report.id} initialSaved={initialSaved} />
+          )}
+          {report.phrases.length > 0 && (
+            <VocabCard lang={lang} kind="phrase" items={report.phrases} reportId={report.id} initialSaved={initialSaved} />
+          )}
+
+          {/* 寫作練習 */}
+          {report.reflectionQuestion && (
+            <ReflectionCard
+              lang={lang}
+              question={report.reflectionQuestion}
+              lessonReportId={report.id}
+              existingResponse={report.reflectionResponse ?? null}
+              existingFeedback={report.reflectionFeedback ?? null}
+            />
+          )}
+
+          {/* Next Challenge */}
+          {report.nextChallenge && (
+            <NextChallengeCard lang={lang} challenge={report.nextChallenge} />
+          )}
+
+          {/* 分享 */}
+          <ShareCard lang={lang} report={report} />
+        </>)}
+
+      </div>
     </div>
   )
 }

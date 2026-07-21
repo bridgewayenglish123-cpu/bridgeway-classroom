@@ -75,4 +75,7 @@ export type ReportVM = {
   totalVocabCount: number
   hiddenGem: string | null
   nextChallenge: string | null
+  learnerType: 'Young Learner' | 'Junior' | 'Adult'
+  level: string
+  parentSummary: string | null
 }
