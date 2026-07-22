@@ -523,6 +523,8 @@ export type Database = {
           created_at: string
           definition_en: string | null
           definition_zh: string | null
+          example_en: string | null
+          example_zh: string | null
           id: string
           lesson_report_id: string
           student_id: string
@@ -533,6 +535,8 @@ export type Database = {
           created_at?: string
           definition_en?: string | null
           definition_zh?: string | null
+          example_en?: string | null
+          example_zh?: string | null
           id: string
           lesson_report_id: string
           student_id: string
@@ -543,6 +547,8 @@ export type Database = {
           created_at?: string
           definition_en?: string | null
           definition_zh?: string | null
+          example_en?: string | null
+          example_zh?: string | null
           id?: string
           lesson_report_id?: string
           student_id?: string

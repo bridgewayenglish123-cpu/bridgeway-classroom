@@ -6,6 +6,7 @@ import { id } from '@/lib/utils/id'
 /**
  * 收藏 / 取消收藏單字或片語（CD4）。
  * 走使用者 session + RLS；saved_vocabulary.word 同時存單字與片語的文字。
+ * 收藏時一併固定當下的定義與例句，日後報告重新生成也不會變動。
  */
 export async function toggleVocabulary(input: {
   lessonReportId: string
@@ -13,6 +14,8 @@ export async function toggleVocabulary(input: {
   type: 'word' | 'phrase'
   definitionZh: string | null
   definitionEn: string | null
+  exampleEn?: string | null
+  exampleZh?: string | null
   isSaved: boolean
 }): Promise<{ error?: string }> {
   const supabase = createClient()
@@ -47,6 +50,8 @@ export async function toggleVocabulary(input: {
       type: input.type,
       definition_zh: input.definitionZh,
       definition_en: input.definitionEn,
+      example_en: input.exampleEn ?? null,
+      example_zh: input.exampleZh ?? null,
     })
     if (error) return { error: error.message }
   }

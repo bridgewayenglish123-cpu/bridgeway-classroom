@@ -22,6 +22,7 @@ export default async function VocabPage() {
     .from('saved_vocabulary')
     .select(`
       id, word, type, created_at,
+      definition_zh, definition_en, example_en, example_zh,
       lesson_report:lesson_report_id (
         id,
         lesson:lesson_id ( id, date, teacher:teachers!teacher_id ( teacher_name ) )
@@ -32,7 +33,7 @@ export default async function VocabPage() {
 
   const displayName = student.en_name ?? student.zh_name ?? ''
 
-  const items = (savedItems ?? []).map(s => {
+  const items = (savedItems ?? []).map((s: any) => {
     const report = Array.isArray(s.lesson_report) ? s.lesson_report[0] : s.lesson_report
     const lesson = report ? (Array.isArray(report.lesson) ? report.lesson[0] : report.lesson) : null
     const teacher = lesson ? (Array.isArray(lesson.teacher) ? lesson.teacher[0] : lesson.teacher) : null
@@ -40,6 +41,10 @@ export default async function VocabPage() {
       id: s.id,
       word: s.word,
       type: s.type as 'word' | 'phrase',
+      definitionZh: s.definition_zh ?? null,
+      definitionEn: s.definition_en ?? null,
+      exampleEn: s.example_en ?? null,
+      exampleZh: s.example_zh ?? null,
       createdAt: s.created_at,
       lessonId: lesson?.id ?? null,
       lessonDate: lesson?.date ?? null,

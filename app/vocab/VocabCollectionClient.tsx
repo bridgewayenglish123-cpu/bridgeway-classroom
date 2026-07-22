@@ -1,5 +1,5 @@
 'use client'
-import { useState, useMemo, useTransition } from 'react'
+import { useState, useMemo, useEffect, useTransition } from 'react'
 import Link from 'next/link'
 
 type VocabItem = {
@@ -56,7 +56,7 @@ export function VocabCollectionClient({ items: initialItems }: { items: VocabIte
   }, [items, search, filter, sort])
 
   // 篩選改變時重設頁碼
-  useMemo(() => { setPage(1) }, [search, filter, sort])
+  useEffect(() => { setPage(1) }, [search, filter, sort])
 
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE)
   const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)

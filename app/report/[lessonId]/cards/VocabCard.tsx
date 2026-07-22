@@ -5,6 +5,14 @@ import type { Lang, ReportPhrase, ReportVocabulary } from '@/lib/types/report'
 import { StarIcon } from './StarIcon'
 import { toggleVocabulary } from '../actions'
 
+type PendingTerm = {
+  term: string
+  defZh: string | null
+  defEn: string | null
+  exEn: string | null
+  exZh: string | null
+}
+
 export function VocabCard({
   lang, kind, items, reportId, initialSaved, largeFont = false,
 }: {
@@ -18,9 +26,7 @@ export function VocabCard({
   const [saved, setSaved] = useState<Set<string>>(() => new Set(initialSaved))
   const [expanded, setExpanded] = useState<Set<string>>(() => new Set())
   const [, startTransition] = useTransition()
-  const [confirmTerm, setConfirmTerm] = useState<{
-    term: string; defZh: string | null; defEn: string | null
-  } | null>(null)
+  const [confirmTerm, setConfirmTerm] = useState<PendingTerm | null>(null)
 
   if (items.length === 0) return null
 
@@ -28,33 +34,39 @@ export function VocabCard({
     ? lang === 'zh' ? '本課單字' : 'Vocabulary'
     : lang === 'zh' ? '本課片語' : 'Phrases'
 
-  const doToggle = (term: string, defZh: string | null, defEn: string | null, isSaved: boolean) => {
+  const doToggle = (t: PendingTerm, isSaved: boolean) => {
     setSaved((prev) => {
       const next = new Set(prev)
-      if (isSaved) next.delete(term)
-      else next.add(term)
+      if (isSaved) next.delete(t.term)
+      else next.add(t.term)
       return next
     })
     startTransition(async () => {
       const res = await toggleVocabulary({
-        lessonReportId: reportId, word: term, type: kind,
-        definitionZh: defZh, definitionEn: defEn, isSaved,
+        lessonReportId: reportId,
+        word: t.term,
+        type: kind,
+        definitionZh: t.defZh,
+        definitionEn: t.defEn,
+        exampleEn: t.exEn,
+        exampleZh: t.exZh,
+        isSaved,
       })
       if (res?.error) {
         setSaved((prev) => {
           const next = new Set(prev)
-          if (isSaved) next.add(term)
-          else next.delete(term)
+          if (isSaved) next.add(t.term)
+          else next.delete(t.term)
           return next
         })
       }
     })
   }
 
-  const handleClick = (term: string, defZh: string | null, defEn: string | null) => {
-    const isSaved = saved.has(term)
-    if (isSaved) setConfirmTerm({ term, defZh, defEn })
-    else doToggle(term, defZh, defEn, false)
+  const handleClick = (t: PendingTerm) => {
+    const isSaved = saved.has(t.term)
+    if (isSaved) setConfirmTerm(t)
+    else doToggle(t, false)
   }
 
   const toggleExpand = (term: string) => {
@@ -89,6 +101,9 @@ export function VocabCard({
             const isSaved = saved.has(term)
             const isExpanded = expanded.has(term)
             const hasExample = exampleEn || exampleZh
+            const payload: PendingTerm = {
+              term, defZh, defEn, exEn: exampleEn, exZh: exampleZh,
+            }
 
             return (
               <li key={`${term}-${i}`} className="py-4 first:pt-0 last:pb-0">
@@ -138,7 +153,7 @@ export function VocabCard({
                   {/* 星號收藏 */}
                   <button
                     type="button"
-                    onClick={() => handleClick(term, defZh, defEn)}
+                    onClick={() => handleClick(payload)}
                     aria-label={isSaved ? '取消收藏' : '收藏'}
                     aria-pressed={isSaved}
                     className="mt-0.5 flex-shrink-0 rounded p-0.5 transition-transform active:scale-90">
@@ -170,7 +185,7 @@ export function VocabCard({
                 className="px-4 py-2 rounded-field text-[13px] font-medium text-ink-mid border border-ivory-dim transition hover:border-navy">
                 {lang === 'zh' ? '保留' : 'Keep'}
               </button>
-              <button onClick={() => { doToggle(confirmTerm.term, confirmTerm.defZh, confirmTerm.defEn, true); setConfirmTerm(null) }}
+              <button onClick={() => { doToggle(confirmTerm, true); setConfirmTerm(null) }}
                 className="px-5 py-2 rounded-field bg-navy text-[13px] font-semibold text-ivory transition hover:opacity-90">
                 {lang === 'zh' ? '確認移除' : 'Remove'}
               </button>
